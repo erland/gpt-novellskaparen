@@ -1,0 +1,40 @@
+schema_version: 1
+project:
+  id: novellskaparen
+  name: Novellskaparen
+plan:
+  path: docs/development-plan.md
+  total_steps: 9
+progress:
+  current_phase: implementation
+  current_step: 9
+  last_completed_step: 8
+  completed_steps:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  skipped_steps: []
+  inserted_steps: []
+state:
+  overall: pass
+  blocking_issues: []
+  warnings: []
+next_step:
+  recommended: 9
+  title: Sluttest, hygiene och release readiness
+  reason: CI- och releaseflödet är härdat och verifierat; återstår full slutkontroll
+    inför stabil release.
+resume:
+  supported: true
+  required_files:
+  - gpt-project.yaml
+  - project-status.yaml
+  - docs/development-plan.md
+  - STATUS.md
+  - PROJECT.md
+  human_readable_status: Steg 8 klart. Fortsätt med steg 9.

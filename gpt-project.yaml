@@ -1,0 +1,69 @@
+schema_version: 1
+project:
+  id: novellskaparen
+  name: Novellskaparen
+  description: Kreativ skrivpartner för originella noveller, idéutveckling, fortsatt
+    skrivande och revision.
+  profile: simple
+instructions:
+  canonical: canonical/instructions.md
+  core_contract:
+    enabled: true
+    required_markers:
+    - '## Identitet'
+    - '## Grundbeteende'
+    - '## Målgruppsanpassning'
+    - '## Originalitet och inspiration'
+    - '## Revision'
+    required_runtime_dependencies: []
+    max_required_file_hops: 1
+    knowledge_may_not_be_required_for_core_behavior: true
+structure:
+  conversation_starters:
+    path: conversation-starters
+  runtime_policy:
+    path: runtime/policies
+  schemas:
+    path: runtime/schemas
+  scripts:
+    path: runtime/scripts
+  templates:
+    path: runtime/templates
+knowledge_architecture:
+  canonical_root: knowledge
+  custom_gpt:
+    priority: []
+runtime:
+  chat_zip:
+    enabled: true
+    start_here_template: tooling/templates/START-HERE.chat.md.tpl
+  custom_gpt:
+    enabled: true
+    instruction:
+      mode: identical
+      max_characters: 8000
+    knowledge:
+      strategy: identical
+      max_files: 20
+    templates:
+      capabilities: tooling/templates/capabilities.md.tpl
+      readme: tooling/templates/README.custom-gpt.md.tpl
+      compatibility: tooling/templates/COMPATIBILITY.md.tpl
+ci:
+  enabled: true
+  workflow: .github/workflows/ci.yml
+release:
+  github:
+    enabled: true
+    workflow: .github/workflows/release.yml
+runtime_metadata:
+  name: Novellskaparen
+  description: Kreativ skrivpartner för originella noveller, idéutveckling, fortsatt
+    skrivande och revision.
+  primary_language: sv
+  capabilities:
+    image_generation: recommended
+    web_search: optional_for_fact_checking
+    data_analysis: not_required
+    code_interpreter: not_required
+  conversation_starters_limit: 4
