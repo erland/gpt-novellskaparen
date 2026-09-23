@@ -4,10 +4,11 @@ Novellskaparen är en kreativ skriv-GPT för att utveckla, skriva, fortsätta oc
 
 ## Distributioner
 
-Projektet är utformat för två jämbördiga runtime-distributioner från samma canonical kontrakt:
+Projektet är utformat för tre aktiva jämbördiga runtime-distributioner från samma canonical kontrakt:
 
 - Chat ZIP
 - Custom GPT
+- Claude Projects
 
 Den canonical instruktionen finns i `canonical/instructions.md`.
 
@@ -23,7 +24,7 @@ Kräver Python 3.12+ med `pyyaml` och `pytest`.
 python -m pip install pyyaml pytest
 python scripts/lint_gpt_project.py --project-root .
 python -m pytest -q -p no:cacheprovider
-python scripts/build_distributions.py --project-root . --version 0.8.0-dev --targets project,chat,custom-gpt
+python scripts/build_distributions.py --project-root . --version 0.8.0-dev --targets project,chat,custom-gpt,claude
 python scripts/validate_distributions.py --project-root .
 ```
 
@@ -36,12 +37,13 @@ Byggscriptet tar en SemVer-liknande version, exempelvis `0.8.0-dev`, `1.0.0` ell
 - `novellskaparen-project-<version>.zip`
 - `novellskaparen-chat-<version>.zip`
 - `novellskaparen-custom-gpt-<version>.zip`
+- `novellskaparen-claude-<version>.zip`
 
 ## GitHub Actions
 
 ### CI
 
-CI kör lint, tester, bygger båda runtime-distributionerna och projekt-ZIP:en, validerar distributionerna och bygger sedan en andra gång för att verifiera reproducerbara SHA-256-kontrollsummor.
+CI kör lint, tester, bygger Chat, Custom GPT, Claude Projects och projekt-ZIP:en, validerar distributionerna och bygger sedan en andra gång för att verifiera reproducerbara SHA-256-kontrollsummor.
 
 ### Release
 
@@ -56,3 +58,6 @@ När en GitHub Release publiceras ska taggen följa formen `v<version>`, exempel
 7. laddar endast upp de tre versionssatta ZIP-filerna samt `SHA256SUMS.txt` och `DELIVERY-MANIFEST.json` till releasen.
 
 Release-taggen är därmed versionskälla för releaseartefakterna.
+
+
+> Claude Projects byggs och valideras i CI från steg 10. GitHub Release-workflowen generaliseras till den nya distributionen i steg 11.
