@@ -7,8 +7,8 @@ plan:
   total_steps: 12
 progress:
   current_phase: migration
-  current_step: 11
-  last_completed_step: 10
+  current_step: 12
+  last_completed_step: 11
   completed_steps:
     - 1
     - 2
@@ -20,6 +20,7 @@ progress:
     - 8
     - 9
     - 10
+    - 11
   skipped_steps: []
   inserted_steps:
     - 9
@@ -30,9 +31,9 @@ state:
   blocking_issues: []
   warnings: []
 next_step:
-  recommended: 11
-  title: Generalisera runtime parity och releasekedjan
-  reason: Claude Projects är byggd och CI-verifierad; nästa steg är generaliserad runtime parity, release readiness och releasekedja för alla aktiva distributioner.
+  recommended: 12
+  title: Sluttest, hygiene och release readiness
+  reason: Runtime parity, release readiness och Claude-publicering är CI-verifierade; återstår slutlig regressionskontroll, hygiene och merge/release readiness.
 resume:
   supported: true
   required_files:
@@ -41,4 +42,4 @@ resume:
     - docs/development-plan.md
     - STATUS.md
     - PROJECT.md
-  human_readable_status: Steg 10 klart och CI-verifierat. Fortsätt med steg 11.
+  human_readable_status: Steg 11 klart och CI-verifierat. Fortsätt med steg 12.
