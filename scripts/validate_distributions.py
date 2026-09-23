@@ -53,6 +53,7 @@ def validate_custom(root: Path, cfg: dict) -> list[str]:
         build / "builder" / "conversation-starters.md",
         build / "builder" / "capabilities.md",
         build / "builder" / "profile.md",
+        build / "builder" / "runtime-contract.json",
         build / "README.md",
         build / "COMPATIBILITY.md",
         build / "VERSION",
@@ -80,6 +81,7 @@ def validate_chat(root: Path, cfg: dict) -> list[str]:
         build / "assistant" / "instructions.md",
         build / "assistant" / "PROFILE.md",
         build / "assistant" / "conversation-starters.md",
+        build / "assistant" / "runtime-contract.json",
     ]
     for p in required:
         if not p.exists():
