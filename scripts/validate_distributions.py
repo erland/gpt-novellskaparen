@@ -94,6 +94,42 @@ def validate_chat(root: Path, cfg: dict) -> list[str]:
     return errors
 
 
+def validate_claude(root: Path, cfg: dict) -> list[str]:
+    errors = []
+    build = root / "build" / "claude"
+    if not build.exists():
+        return ["Claude Projects build directory missing"]
+
+    required = [
+        build / "README.md",
+        build / "VERSION",
+        build / "MANIFEST.json",
+        build / "project" / "instructions.md",
+        build / "project" / "runtime-contract.json",
+        build / "project" / "knowledge",
+    ]
+    for p in required:
+        if not p.exists():
+            errors.append(f"Missing required Claude file: {p.relative_to(build)}")
+
+    instr = build / "project" / "instructions.md"
+    canonical = root / cfg["instructions"]["canonical"]
+    if instr.exists() and instr.read_bytes() != canonical.read_bytes():
+        errors.append("Claude Project Instructions are not identical with canonical instruction")
+
+    contract = build / "project" / "runtime-contract.json"
+    if contract.exists():
+        payload = json.loads(contract.read_text(encoding="utf-8"))
+        if payload.get("runtime_id") != "claude_project":
+            errors.append("Claude runtime contract has wrong runtime_id")
+        adapter = payload.get("adapter", {})
+        if adapter.get("claude_code_conventions") is not False:
+            errors.append("Claude Projects must not require Claude Code conventions")
+        if adapter.get("persistent_state_required") is not False:
+            errors.append("Claude Projects must preserve non-stateful core contract")
+    return errors
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--project-root", default=".")
@@ -106,6 +142,8 @@ def main() -> int:
     errors.extend(validate_chat(root, cfg))
     if cfg["runtime"]["custom_gpt"]["enabled"]:
         errors.extend(validate_custom(root, cfg))
+    if cfg.get("runtime", {}).get("claude", {}).get("enabled"):
+        errors.extend(validate_claude(root, cfg))
 
     if errors:
         print("VALIDATION: FAIL")
