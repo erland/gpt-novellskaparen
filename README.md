@@ -60,4 +60,4 @@ När en GitHub Release publiceras ska taggen följa formen `v<version>`, exempel
 Release-taggen är därmed versionskälla för releaseartefakterna.
 
 
-> Claude Projects byggs och valideras i CI från steg 10. GitHub Release-workflowen generaliseras till den nya distributionen i steg 11.
+Claude Projects byggs och valideras tillsammans med Chat och Custom GPT. Runtime parity jämför fem registrerade runtimes över behavior, capability, artifact, workspace/state och tool. GitHub Release publicerar Project-, Chat-, Custom GPT- och Claude-ZIP samt checksummor och delivery manifest.
