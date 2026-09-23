@@ -26,6 +26,10 @@ python scripts/lint_gpt_project.py --project-root .
 python -m pytest -q -p no:cacheprovider
 python scripts/build_distributions.py --project-root . --version 0.8.0-dev --targets project,chat,custom-gpt,claude
 python scripts/validate_distributions.py --project-root .
+python scripts/validate_runtime_parity.py
+python scripts/validate_release_readiness.py
+python scripts/project_hygiene.py --project-root . --mode final
+python scripts/validate_workflow_parity.py
 ```
 
 Varje byggning rensar `build/` och `dist/` först. ZIP-filer skapas deterministiskt med stabil filordning och fasta ZIP-tidsstämplar. `SHA256SUMS.txt` kan därför användas för att kontrollera att två byggen från samma källor och version är identiska.
@@ -55,7 +59,7 @@ När en GitHub Release publiceras ska taggen följa formen `v<version>`, exempel
 4. bygger rena distributioner,
 5. validerar dem,
 6. kontrollerar de förväntade filnamnen,
-7. laddar endast upp de tre versionssatta ZIP-filerna samt `SHA256SUMS.txt` och `DELIVERY-MANIFEST.json` till releasen.
+7. laddar upp de fyra versionssatta ZIP-filerna (Project, Chat, Custom GPT och Claude) samt `SHA256SUMS.txt` och `DELIVERY-MANIFEST.json` till releasen.
 
 Release-taggen är därmed versionskälla för releaseartefakterna.
 
