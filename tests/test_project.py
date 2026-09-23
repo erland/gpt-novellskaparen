@@ -263,7 +263,7 @@ def test_peer_runtime_assessment_is_explicit():
     assert candidates["claude_project"]["suitability"] == "ready"
     assert candidates["opencode"]["suitability"] == "reduced"
     assert candidates["openai_plugin"]["suitability"] == "reduced"
-    assert cfg["runtime"]["claude"]["enabled"] is False
+    assert cfg["runtime"]["claude"]["enabled"] is True
 
 
 def test_platform_neutral_contract_schemas_exist():
@@ -292,3 +292,29 @@ def test_instruction_adherence_evals_are_registered():
         assert case["criticality"] in {"critical", "important", "optional"}
         assert case["input"]
         assert case["expected"]["required"]
+
+
+def test_claude_projects_distribution_contract_is_configured():
+    cfg = __import__("yaml").safe_load((ROOT / "gpt-project.yaml").read_text(encoding="utf-8"))
+    claude = cfg["runtime"]["claude"]
+    assert claude["enabled"] is True
+    assert claude["mode"] == "claude_project"
+    assert claude["project"]["instructions"] == "project/instructions.md"
+    assert claude["project"]["knowledge"] == "project/knowledge"
+    assert claude["project"]["runtime_contract"] == "project/runtime-contract.json"
+
+
+def test_claude_build_and_validation_are_wired_into_ci():
+    build = (ROOT / "scripts/build_distributions.py").read_text(encoding="utf-8")
+    validate = (ROOT / "scripts/validate_distributions.py").read_text(encoding="utf-8")
+    ci = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    for marker in [
+        "def build_claude(",
+        'runtime_id": runtime_id',
+        'f"{project_id}-claude-{version}.zip"',
+        "project/knowledge/",
+    ]:
+        assert marker in build
+    assert "def validate_claude(" in validate
+    assert "Claude Project Instructions are not identical with canonical instruction" in validate
+    assert "--targets project,chat,custom-gpt,claude" in ci
