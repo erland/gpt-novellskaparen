@@ -196,3 +196,18 @@ release:
   github:
     enabled: true
     workflow: .github/workflows/release.yml
+
+runtime_parity:
+  model: runtime-parity.yaml
+  registered_runtimes:
+    - chatgpt_chat
+    - chatgpt_custom
+    - claude_project
+    - opencode
+    - openai_plugin
+  compared_categories:
+    - behavior
+    - capability
+    - artifact
+    - workspace_state
+    - tool
