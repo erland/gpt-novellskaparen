@@ -1,0 +1,17 @@
+schema_version: 1
+suites:
+  deterministic_project_tests:
+    type: deterministic
+    path: tests/test_project.py
+    blocking: true
+    profiles: [simple]
+  instruction_adherence:
+    type: behavioral
+    path: tests/model-robustness
+    blocking: true
+    profiles: [simple]
+  existing_behavioral_scenarios:
+    type: regression
+    path: tests
+    blocking: true
+    profiles: [simple]
