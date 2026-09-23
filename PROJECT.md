@@ -23,7 +23,7 @@ Kärnbeteendet ligger direkt i canonical instruktionen. Ingen Knowledge-fil krä
 
 ## Runtime-strategi
 
-Chat ZIP och Custom GPT byggs från samma canonical kontrakt. Verkliga plattformsskillnader ska dokumenteras, inte döljas.
+Chat ZIP, Custom GPT och Claude Projects byggs som aktiva jämbördiga distributioner från samma canonical kontrakt. OpenCode och OpenAI Plugin är explicit bedömda som reducerade och inaktiva för detta användningsfall. Verkliga plattformsskillnader ska dokumenteras, inte döljas.
 
 ## Tekniska grundval
 
@@ -32,3 +32,6 @@ Chat ZIP och Custom GPT byggs från samma canonical kontrakt. Verkliga plattform
 - Statuskälla: `project-status.yaml`
 - CI: `.github/workflows/ci.yml`
 - Release-build: `.github/workflows/release.yml`
+
+- Runtime parity: `runtime-parity.yaml`
+- Modellrobusthet: `lightweight`

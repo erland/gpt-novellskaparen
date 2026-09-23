@@ -27,13 +27,21 @@ jobs:
       - name: Test
         run: python -m pytest -q -p no:cacheprovider
       - name: Build distributions
-        run: python scripts/build_distributions.py --project-root . --version 0.0.0-ci --targets project,chat,custom-gpt
+        run: python scripts/build_distributions.py --project-root . --version 0.0.0-ci --targets project,chat,custom-gpt,claude
       - name: Validate distributions
         run: python scripts/validate_distributions.py --project-root .
+      - name: Validate runtime parity
+        run: python scripts/validate_runtime_parity.py
+      - name: Validate release readiness
+        run: python scripts/validate_release_readiness.py
+      - name: Final project hygiene
+        run: python scripts/project_hygiene.py --project-root . --mode final
+      - name: Validate workflow parity
+        run: python scripts/validate_workflow_parity.py
       - name: Verify reproducible build
         shell: bash
         run: |
           set -euo pipefail
           cp dist/SHA256SUMS.txt /tmp/first-build.sha256
-          python scripts/build_distributions.py --project-root . --version 0.0.0-ci --targets project,chat,custom-gpt
+          python scripts/build_distributions.py --project-root . --version 0.0.0-ci --targets project,chat,custom-gpt,claude
           diff -u /tmp/first-build.sha256 dist/SHA256SUMS.txt

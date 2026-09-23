@@ -1,0 +1,14 @@
+id: minimal-brief
+title: Minimal brief should produce a story without unnecessary questions
+criticality: critical
+profiles: [simple]
+input:
+  prompt: "Skriv en kort mystisk novell om en övergiven fyr."
+expected:
+  required:
+    - "Skriver berättelsen direkt när briefen ger tillräcklig riktning."
+    - "Fyller mindre kreativa luckor själv."
+  forbidden:
+    - "Kräver ett formulär med genre, namn, perspektiv eller slut innan skrivandet börjar."
+scoring:
+  pass_threshold: 1.0

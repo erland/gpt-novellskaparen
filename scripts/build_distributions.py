@@ -117,6 +117,26 @@ def write_manifest(root: Path, runtime_id: str, version: str, entrypoint: str | 
     )
 
 
+def runtime_contract(cfg: dict, runtime_id: str, adapter: dict) -> dict:
+    return {
+        "schema_version": 1,
+        "runtime_id": runtime_id,
+        "capabilities": cfg.get("capabilities", {}),
+        "artifacts": cfg.get("artifacts", {}),
+        "workspace_state": cfg.get("workspace_state", {}),
+        "tools": cfg.get("tools", {}),
+        "adapter": adapter,
+    }
+
+
+def write_runtime_contract(path: Path, cfg: dict, runtime_id: str, adapter: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(runtime_contract(cfg, runtime_id, adapter), ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
 def runtime_profile_text(cfg: dict, version: str) -> str:
     meta = cfg.get("runtime_metadata", {})
     caps = meta.get("capabilities", {})
@@ -175,6 +195,17 @@ def build_chat(root: Path, cfg: dict, build_root: Path, version: str) -> Path:
 
     instr_src = root / cfg["instructions"]["canonical"]
     copy_file(instr_src, assistant / "instructions.md")
+    write_runtime_contract(
+        assistant / "runtime-contract.json",
+        cfg,
+        "chatgpt_chat",
+        {
+            "mode": "chat_zip",
+            "project_instructions": True,
+            "project_knowledge": True,
+            "persistent_state_required": False,
+        },
+    )
 
     starters_root = root / cfg["structure"]["conversation_starters"]["path"]
     if starters_root.exists():
@@ -303,6 +334,17 @@ def build_custom(root: Path, cfg: dict, build_root: Path, version: str) -> Path:
     core_markers = list(cfg.get("instructions", {}).get("core_contract", {}).get("required_markers", []) or [])
     compiled_instr = compile_custom_instruction(instr, mode, max_chars, core_markers)
     (builder / "instructions.md").write_text(compiled_instr, encoding="utf-8")
+    write_runtime_contract(
+        builder / "runtime-contract.json",
+        cfg,
+        "chatgpt_custom",
+        {
+            "mode": "custom_gpt",
+            "project_instructions": True,
+            "project_knowledge": True,
+            "persistent_state_required": False,
+        },
+    )
 
     starters_root = root / cfg["structure"]["conversation_starters"]["path"]
     starters = [p for p in starters_root.rglob("*") if p.is_file() and p.name != "README.md"] if starters_root.exists() else []
@@ -361,6 +403,57 @@ def build_custom(root: Path, cfg: dict, build_root: Path, version: str) -> Path:
     return out
 
 
+def build_claude(root: Path, cfg: dict, build_root: Path, version: str) -> Path:
+    out = build_root / "claude"
+    ensure_clean_dir(out)
+
+    runtime_cfg = cfg["runtime"]["claude"]
+    project_dir = out / "project"
+    project_dir.mkdir(parents=True)
+
+    instr_src = root / cfg["instructions"]["canonical"]
+    instructions_ref = runtime_cfg["project"]["instructions"]
+    copy_file(instr_src, out / instructions_ref)
+
+    knowledge_root = root / cfg["knowledge_architecture"]["canonical_root"]
+    knowledge_ref = runtime_cfg["project"]["knowledge"]
+    knowledge_target = out / knowledge_ref
+    # A simple/lightweight project may intentionally have no runtime Knowledge files.
+    # The empty directory is still part of the Claude Projects package contract.
+    knowledge_target.mkdir(parents=True, exist_ok=True)
+    if knowledge_root.exists():
+        for p in sorted(knowledge_root.rglob("*")):
+            if p.is_file() and p.name != "KNOWLEDGE.md":
+                copy_file(p, knowledge_target / p.relative_to(knowledge_root))
+
+    contract_ref = runtime_cfg["project"]["runtime_contract"]
+    write_runtime_contract(
+        out / contract_ref,
+        cfg,
+        "claude_project",
+        {
+            "mode": "claude_project",
+            "project_instructions": True,
+            "project_knowledge": True,
+            "claude_code_conventions": False,
+            "embedded_local_tools": False,
+            "persistent_state_required": False,
+        },
+    )
+
+    (out / "README.md").write_text(
+        f"# {cfg['project']['name']} – Claude Projects {version}\n\n"
+        "Använd project/instructions.md som Project Instructions. "
+        "project/knowledge/ innehåller eventuell Project Knowledge; katalogen kan vara tom eftersom "
+        "Novellskaparen inte kräver Knowledge för kärnbeteendet. "
+        "Paketet är avsett för Claude Projects och använder inte CLAUDE.md eller Claude Code-specifika konventioner.\n",
+        encoding="utf-8",
+    )
+    (out / "VERSION").write_text(version + "\n", encoding="utf-8")
+    write_manifest(out, cfg["project"]["id"] + "-claude", version, "README.md")
+    return out
+
+
 def project_files(root: Path) -> list[Path]:
     excluded_top = {"build", "dist", ".git"}
     result = []
@@ -395,6 +488,8 @@ def write_delivery_manifest(dist: Path, cfg: dict, version: str) -> None:
                 artifact_type = "chat_zip"
             elif "-custom-gpt-" in p.name:
                 artifact_type = "custom_gpt_zip"
+            elif "-claude-" in p.name:
+                artifact_type = "claude_zip"
             else:
                 artifact_type = "zip"
         elif p.name == "SHA256SUMS.txt":
@@ -425,7 +520,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--project-root", default=".")
     parser.add_argument("--version", default="0.0.0-dev")
-    parser.add_argument("--targets", default="project,chat,custom-gpt")
+    parser.add_argument("--targets", default="project,chat,custom-gpt,claude")
     args = parser.parse_args()
 
     root = Path(args.project_root).resolve()
@@ -452,6 +547,11 @@ def main() -> int:
         custom_root = build_custom(root, cfg, build_root, version)
         custom_zip = dist / f"{project_id}-custom-gpt-{version}.zip"
         stable_write_zip(custom_zip, custom_root, [p for p in custom_root.rglob("*") if p.is_file()])
+
+    if "claude" in targets and cfg.get("runtime", {}).get("claude", {}).get("enabled"):
+        claude_root = build_claude(root, cfg, build_root, version)
+        claude_zip = dist / f"{project_id}-claude-{version}.zip"
+        stable_write_zip(claude_zip, claude_root, [p for p in claude_root.rglob("*") if p.is_file()])
 
     if "project" in targets:
         project_zip = dist / f"{project_id}-project-{version}.zip"

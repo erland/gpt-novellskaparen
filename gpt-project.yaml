@@ -5,19 +5,54 @@ project:
   description: Kreativ skrivpartner för originella noveller, idéutveckling, fortsatt
     skrivande och revision.
   profile: simple
+analysis:
+  source: existing-project-migration
+  runtime:
+    strategy: peer_candidates
+    candidates:
+      - runtime_id: chatgpt_chat
+        suitability: ready
+        activate_by_default: true
+        reason: Canonical instruktion och kärnflöde fungerar direkt utan obligatorisk Knowledge eller persistent state.
+      - runtime_id: chatgpt_custom
+        suitability: ready
+        activate_by_default: true
+        reason: Kärnbeteendet ryms inom instruktionsgränsen och kräver inga externa verktyg.
+      - runtime_id: claude_project
+        suitability: ready
+        activate_by_default: true
+        reason: Project Instructions kan bära samma canonical beteende utan runtime-specifika beroenden.
+      - runtime_id: opencode
+        suitability: reduced
+        activate_by_default: false
+        reason: Lokal workspace- och shell-exekvering tillför ingen central förmåga för kreativt skrivande.
+      - runtime_id: openai_plugin
+        suitability: reduced
+        activate_by_default: false
+        reason: Plugin-runtime tillför inget nödvändigt till kärnflödet och aktiveras därför inte som standard.
+
+model_robustness:
+  level: lightweight
+  rationale: Novellskaparen utför korta kreativa uppgifter och revisioner utan långlivad strukturerad progression eller persistent state.
+  operational_core: false
+  explicit_workflow: false
+  deterministic_gates: false
+  instruction_adherence_evals: true
+
 instructions:
   canonical: canonical/instructions.md
   core_contract:
     enabled: true
     required_markers:
-    - '## Identitet'
-    - '## Grundbeteende'
-    - '## Målgruppsanpassning'
-    - '## Originalitet och inspiration'
-    - '## Revision'
+      - '## Identitet'
+      - '## Grundbeteende'
+      - '## Målgruppsanpassning'
+      - '## Originalitet och inspiration'
+      - '## Revision'
     required_runtime_dependencies: []
     max_required_file_hops: 1
     knowledge_may_not_be_required_for_core_behavior: true
+
 structure:
   conversation_starters:
     path: conversation-starters
@@ -29,14 +64,101 @@ structure:
     path: runtime/scripts
   templates:
     path: runtime/templates
+
+capabilities:
+  contract_version: 1
+  schema: schemas/capability-contract.schema.json
+  recommendation_mode: inferred_from_use_case
+  ask_user_only_when_business_choice_is_ambiguous: true
+  requirements:
+    web:
+      level: optional
+      reason: Kan användas vid faktakontroll men är inte del av kärnflödet.
+    filesystem:
+      read: optional
+      write: optional
+    shell:
+      level: not_required
+    code_execution:
+      level: not_required
+    structured_data:
+      level: not_required
+    persistent_state:
+      level: not_required
+    external_tools:
+      level: not_required
+    image_generation:
+      level: recommended
+      reason: Kan användas som kompletterande funktion för illustrationer.
+
+artifacts:
+  contract_version: 1
+  schema: schemas/artifact-contract.schema.json
+  outputs:
+    story_or_revision:
+      kind: document
+      format: markdown
+      requirement: required
+      persistence: ephemeral
+      multiplicity: one
+      description: Färdig novell, textdel eller reviderad text enligt användarens begäran.
+    project_package:
+      kind: package
+      format: zip
+      requirement: required
+      persistence: persistent
+      multiplicity: one
+    runtime_package:
+      kind: distribution
+      format: zip
+      requirement: required
+      persistence: persistent
+      multiplicity: many
+
+workspace_state:
+  contract_version: 1
+  schema: schemas/workspace-state-contract.schema.json
+  workspace:
+    requirement: not_required
+    persistence: not_required
+    portable: false
+    separate_from_assistant: false
+    description: Kärnuppgiften kan utföras direkt i konversationen.
+  state:
+    requirement: not_required
+    persistence: not_required
+    authority: none
+    description: Kontinuitet inom en pågående konversation räcker för kärnflödet.
+  runtime_preferences:
+    chat: none
+    agent: none
+
+tools:
+  contract_version: 1
+  schema: schemas/tool-contract.schema.json
+  tools: []
+
 knowledge_architecture:
   canonical_root: knowledge
   custom_gpt:
     priority: []
+
 runtime:
+  primary: none
   chat_zip:
     enabled: true
     start_here_template: tooling/templates/START-HERE.chat.md.tpl
+  claude:
+    enabled: true
+    role: peer_distribution
+    mode: claude_project
+    project:
+      instructions: project/instructions.md
+      knowledge: project/knowledge
+      runtime_contract: project/runtime-contract.json
+    validation:
+      require_instructions: true
+      require_runtime_contract: true
   custom_gpt:
     enabled: true
     instruction:
@@ -49,13 +171,11 @@ runtime:
       capabilities: tooling/templates/capabilities.md.tpl
       readme: tooling/templates/README.custom-gpt.md.tpl
       compatibility: tooling/templates/COMPATIBILITY.md.tpl
-ci:
-  enabled: true
-  workflow: .github/workflows/ci.yml
-release:
-  github:
-    enabled: true
-    workflow: .github/workflows/release.yml
+
+testing:
+  manifest: tests/test-manifest.yaml
+  eval_case_schema: schemas/eval-case.schema.json
+
 runtime_metadata:
   name: Novellskaparen
   description: Kreativ skrivpartner för originella noveller, idéutveckling, fortsatt
@@ -67,3 +187,27 @@ runtime_metadata:
     data_analysis: not_required
     code_interpreter: not_required
   conversation_starters_limit: 4
+
+ci:
+  enabled: true
+  workflow: .github/workflows/ci.yml
+
+release:
+  github:
+    enabled: true
+    workflow: .github/workflows/release.yml
+
+runtime_parity:
+  model: runtime-parity.yaml
+  registered_runtimes:
+    - chatgpt_chat
+    - chatgpt_custom
+    - claude_project
+    - opencode
+    - openai_plugin
+  compared_categories:
+    - behavior
+    - capability
+    - artifact
+    - workspace_state
+    - tool

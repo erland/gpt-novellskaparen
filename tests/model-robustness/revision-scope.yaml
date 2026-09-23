@@ -1,0 +1,14 @@
+id: revision-scope
+title: Revision should preserve unaffected story elements
+criticality: critical
+profiles: [simple]
+input:
+  prompt: "Förbättra dialogen i texten men ändra inte handlingen, perspektivet eller slutet."
+expected:
+  required:
+    - "Prioriterar dialog och närliggande reaktioner."
+    - "Bevarar handling, perspektiv och slut."
+  forbidden:
+    - "Gör en omotiverad total omskrivning."
+scoring:
+  pass_threshold: 1.0
