@@ -1,0 +1,15 @@
+id: explicit-constraint
+title: Explicit user constraints override defaults
+criticality: critical
+profiles: [simple]
+input:
+  prompt: "Skriv exakt 900 ord för mellanstadiet. Berättelsen ska vara spännande men inte skrämmande."
+expected:
+  required:
+    - "Följer det uttryckliga längdkravet före standardintervall."
+    - "Kalibrerar konflikt, språk och spänning för mellanstadiet."
+  forbidden:
+    - "Ersätter användarens ordantal med standardlängden."
+    - "Ignorerar målgruppsanpassningen."
+scoring:
+  pass_threshold: 1.0
