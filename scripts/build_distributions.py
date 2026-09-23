@@ -195,6 +195,17 @@ def build_chat(root: Path, cfg: dict, build_root: Path, version: str) -> Path:
 
     instr_src = root / cfg["instructions"]["canonical"]
     copy_file(instr_src, assistant / "instructions.md")
+    write_runtime_contract(
+        assistant / "runtime-contract.json",
+        cfg,
+        "chatgpt_chat",
+        {
+            "mode": "chat_zip",
+            "project_instructions": True,
+            "project_knowledge": True,
+            "persistent_state_required": False,
+        },
+    )
 
     starters_root = root / cfg["structure"]["conversation_starters"]["path"]
     if starters_root.exists():
@@ -323,6 +334,17 @@ def build_custom(root: Path, cfg: dict, build_root: Path, version: str) -> Path:
     core_markers = list(cfg.get("instructions", {}).get("core_contract", {}).get("required_markers", []) or [])
     compiled_instr = compile_custom_instruction(instr, mode, max_chars, core_markers)
     (builder / "instructions.md").write_text(compiled_instr, encoding="utf-8")
+    write_runtime_contract(
+        builder / "runtime-contract.json",
+        cfg,
+        "chatgpt_custom",
+        {
+            "mode": "custom_gpt",
+            "project_instructions": True,
+            "project_knowledge": True,
+            "persistent_state_required": False,
+        },
+    )
 
     starters_root = root / cfg["structure"]["conversation_starters"]["path"]
     starters = [p for p in starters_root.rglob("*") if p.is_file() and p.name != "README.md"] if starters_root.exists() else []
