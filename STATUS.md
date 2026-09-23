@@ -2,7 +2,7 @@
 
 ## Sammanfattning
 
-Steg 1–10 är genomförda. Migrering till **GPT Byggaren 1.5.0** fortsätter i steg 11.
+Steg 1–11 är genomförda. Migrering till **GPT Byggaren 1.5.0** återstår att slutverifiera i steg 12.
 
 Novellskaparens canonical domänbeteende bevaras. Migreringen lägger först till plattformsneutrala kontrakt, explicit runtime-bedömning och `lightweight` modellrobusthet. Claude Projects, generaliserad runtime parity och uppdaterad releasekedja hanteras i efterföljande steg.
 
@@ -18,7 +18,7 @@ Novellskaparens canonical domänbeteende bevaras. Migreringen lägger först til
 - [x] Steg 8 – Lägg till CI och release-byggning
 - [x] Steg 9 – GPT Byggaren 1.5-kontrakt och lightweight modellrobusthet
 - [x] Steg 10 – Lägg till Claude Projects som peer-distribution
-- [ ] Steg 11 – Generalisera runtime parity och releasekedjan
+- [x] Steg 11 – Generalisera runtime parity och releasekedjan
 - [ ] Steg 12 – Sluttest, hygiene och release readiness
 
 ## GPT Byggaren 1.5-migrering
@@ -30,13 +30,13 @@ Steg 9 omfattar:
 - `lightweight` modellrobusthetsprofil,
 - instruction-adherence-evals för minimal brief, uttryckliga begränsningar, revisionsscope och originalitet.
 
-Claude Projects är bedömd som `ready` men hålls avsiktligt avstängd tills steg 10 bygger och validerar distributionen. OpenCode och OpenAI Plugin är `reduced` och aktiveras inte som standard.
+Chat, Custom GPT och Claude Projects är aktiva `ready` peer-runtimes. OpenCode och OpenAI Plugin är `reduced` och aktiveras inte som standard.
 
 ## Befintlig CI och release
 
 - CI kör lint, tester, distribution build och distribution validation.
 - CI verifierar reproducerbarhet genom två identiska byggen och jämförelse av SHA-256-summor.
-- Projekt-, Chat- och Custom GPT-ZIP får versionssatta filnamn.
+- Projekt-, Chat-, Custom GPT- och Claude ZIP får versionssatta filnamn.
 - GitHub Release-taggen styr releaseversionen.
 
 ## Verifiering av steg 9
@@ -47,9 +47,13 @@ CI passerade på migrationsbranchens head med lyckad lint, tester, distributions
 
 Claude Projects byggs nu deterministiskt från samma canonical instruktion som Chat och Custom GPT. CI verifierar identisk Project Instructions, runtime-kontrakt, giltig tom Knowledge-katalog när ingen Knowledge krävs samt reproducerbara artefakter.
 
+## Verifiering av steg 11
+
+CI passerade med generaliserad parity för fem registrerade runtimes, runtime-kontrakt i alla tre aktiva distributioner, release-readiness-gate, Claude som explicit releaseartefakt och reproducerbarhetskontroll.
+
 ## Nästa rekommenderade steg
 
-**Steg 11 – Generalisera runtime parity och releasekedjan.**
+**Steg 12 – Sluttest, hygiene och release readiness.**
 
 ## Blockerare
 
