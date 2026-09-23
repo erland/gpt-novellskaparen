@@ -387,3 +387,17 @@ def test_final_hygiene_and_workflow_parity_are_enforced():
         assert marker in release
     assert (ROOT / "scripts/project_hygiene.py").is_file()
     assert (ROOT / "scripts/validate_workflow_parity.py").is_file()
+
+
+def test_final_documentation_matches_active_runtime_model():
+    project = (ROOT / "PROJECT.md").read_text(encoding="utf-8")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    plan = (ROOT / "docs/development-plan.md").read_text(encoding="utf-8")
+    for marker in ["Chat ZIP", "Custom GPT", "Claude Projects"]:
+        assert marker in project
+        assert marker in readme
+    assert "OpenCode" in project
+    assert "OpenAI Plugin" in project
+    assert "de fyra versionssatta ZIP-filerna" in readme
+    assert "Steg 12 – Sluttest, hygiene och release readiness" in plan
+    assert "**Steg 9 – GPT Byggaren 1.5-kontrakt" not in plan.split("## Nästa steg enligt nuvarande status")[-1]
