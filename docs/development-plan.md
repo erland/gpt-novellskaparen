@@ -405,7 +405,9 @@ Verifiera helheten innan första stabila release.
 - uppföljare och kontinuitet,
 - inspirationsönskemål nära befintliga verk,
 - Chat ZIP,
-- Custom GPT.
+- Custom GPT,
+- Claude Projects,
+- runtime parity och release-readiness för alla registrerade runtimes.
 
 ### Project hygiene
 
@@ -440,6 +442,6 @@ GPT Byggaren ska då läsa faktisk projektstatus och utföra nästa lämpliga st
 
 ## Nästa steg enligt nuvarande status
 
-**Steg 9 – GPT Byggaren 1.5-kontrakt och lightweight modellrobusthet.**
+**Steg 12 – Sluttest, hygiene och release readiness.**
 
-Steget ska verifieras av CI innan statusen flyttas vidare till steg 10.
+När detta steg passerar samtliga kvalitetsgrindar övergår projektet till förvaltningsläge och PR:n är redo att mergeas.
