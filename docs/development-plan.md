@@ -3,14 +3,14 @@
 **Projekt:** Novellskaparen  
 **Projekt-id:** `novellskaparen`  
 **Profil:** `simple`  
-**Planversion:** 1  
-**Utgångspunkt:** GPT Byggaren 1.2.1
+**Planversion:** 2  
+**Utgångspunkt:** GPT Byggaren 1.2.1, migreras till GPT Byggaren 1.5.0
 
 ## Mål
 
 Bygga en kreativ skriv-GPT som kan ta en enkel idé eller en detaljerad brief till en färdig, originell novell. GPT:n ska kunna anpassa språk, innehåll, dramaturgi, tonalitet och komplexitet efter målgrupp, vara självgående när tillräcklig information finns och kunna samarbeta stegvis när användaren vill utveckla berättelsen tillsammans.
 
-Både **Chat ZIP** och **Custom GPT** ska byggas från samma canonical beteendekontrakt.
+Alla aktiva runtime-distributioner ska byggas från samma canonical beteendekontrakt. Chat ZIP och Custom GPT finns redan; Claude Projects bedöms som en kompatibel peer-runtime och införs i migreringsstegen.
 
 ## Arkitekturbeslut
 
@@ -332,7 +332,60 @@ Göra projektet reproducerbart och enkelt att releasa via GitHub.
 
 ---
 
-## Steg 9 – Sluttest, hygiene och release readiness
+## Steg 9 – GPT Byggaren 1.5-kontrakt och lightweight modellrobusthet
+
+### Mål
+
+Migrera projektmodellen till GPT Byggaren 1.5.0 utan att ändra Novellskaparens domänbeteende.
+
+### Leveranser
+
+- explicit bedömning av ChatGPT Chat, Custom GPT, Claude Projects, OpenCode och OpenAI Plugin,
+- capability-, artifact-, workspace/state- och tool-kontrakt,
+- modellrobusthetsnivå `lightweight`,
+- instruction-adherence-evals för kritiskt beteende,
+- plattformsneutrala kontrakts- och eval-schemas.
+
+### Klart när
+
+- befintlig canonical instruktion är oförändrad,
+- kärnbeteendet kräver högst ett obligatoriskt filhopp och ingen Knowledge-fil,
+- fyra instruction-adherence-evals finns,
+- befintliga tester och distributioner inte regresserar,
+- CI passerar.
+
+---
+
+## Steg 10 – Lägg till Claude Projects som peer-distribution
+
+### Mål
+
+Bygga Claude Projects från samma canonical kontrakt utan att införa Claude-specifikt domänbeteende.
+
+### Klart när
+
+- Claude Projects innehåller Project Instructions och runtime-kontrakt,
+- Chat, Custom GPT och Claude Projects bär samma kritiska kärnbeteende,
+- distributionsvalideringen passerar.
+
+---
+
+## Steg 11 – Generalisera runtime parity och releasekedjan
+
+### Mål
+
+Utöka build, parity, validering och release readiness till GPT Byggaren 1.5-modellen.
+
+### Klart när
+
+- aktiva peer-runtimes jämförs för behavior, capability, artifact, workspace/state och tool,
+- OpenCode och OpenAI Plugin har explicit reducerad/inaktiv status,
+- releaseartefakter, checksummor och delivery manifest täcker aktiva distributioner,
+- CI och release-workflow passerar.
+
+---
+
+## Steg 12 – Sluttest, hygiene och release readiness
 
 ### Mål
 
@@ -387,6 +440,6 @@ GPT Byggaren ska då läsa faktisk projektstatus och utföra nästa lämpliga st
 
 ## Nästa steg enligt nuvarande status
 
-**Steg 1 – Initiera projektet och skapa canonical kärna.**
+**Steg 9 – GPT Byggaren 1.5-kontrakt och lightweight modellrobusthet.**
 
-Det steget ska också skapa den första kompletta projekt-ZIP:en.
+Steget ska verifieras av CI innan statusen flyttas vidare till steg 10.
