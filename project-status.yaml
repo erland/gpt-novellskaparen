@@ -6,9 +6,9 @@ plan:
   path: docs/development-plan.md
   total_steps: 12
 progress:
-  current_phase: migration
+  current_phase: maintenance
   current_step: 12
-  last_completed_step: 11
+  last_completed_step: 12
   completed_steps:
     - 1
     - 2
@@ -21,6 +21,7 @@ progress:
     - 9
     - 10
     - 11
+    - 12
   skipped_steps: []
   inserted_steps:
     - 9
@@ -30,10 +31,18 @@ state:
   overall: pass
   blocking_issues: []
   warnings: []
+validation:
+  last_result: pass
+  details: Full regression, distributionsvalidering, runtime parity, release readiness, project hygiene, workflow parity och reproducerbarhetskontroll passerar.
+project_hygiene:
+  last_result: pass
+release:
+  state: ready
+  note: GPT Byggaren 1.5.0-migreringen är verifierad och PR:n är redo att mergeas.
 next_step:
-  recommended: 12
-  title: Sluttest, hygiene och release readiness
-  reason: Runtime parity, release readiness och Claude-publicering är CI-verifierade; återstår slutlig regressionskontroll, hygiene och merge/release readiness.
+  recommended: null
+  title: Förvaltning
+  reason: Samtliga steg 1–12 är genomförda och verifierade.
 resume:
   supported: true
   required_files:
@@ -42,4 +51,4 @@ resume:
     - docs/development-plan.md
     - STATUS.md
     - PROJECT.md
-  human_readable_status: Steg 11 klart och CI-verifierat. Fortsätt med steg 12.
+  human_readable_status: Migreringen till GPT Byggaren 1.5.0 är klar. Projektet är i förvaltningsläge.
