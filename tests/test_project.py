@@ -374,3 +374,16 @@ def test_ci_and_release_enforce_runtime_parity_and_readiness():
 def test_runtime_parity_and_readiness_scripts_exist():
     assert (ROOT / "scripts/validate_runtime_parity.py").is_file()
     assert (ROOT / "scripts/validate_release_readiness.py").is_file()
+
+
+def test_final_hygiene_and_workflow_parity_are_enforced():
+    ci = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    release = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
+    for marker in [
+        "python scripts/project_hygiene.py --project-root . --mode final",
+        "python scripts/validate_workflow_parity.py",
+    ]:
+        assert marker in ci
+        assert marker in release
+    assert (ROOT / "scripts/project_hygiene.py").is_file()
+    assert (ROOT / "scripts/validate_workflow_parity.py").is_file()
