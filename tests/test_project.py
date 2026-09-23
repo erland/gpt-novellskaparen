@@ -235,3 +235,60 @@ def test_ci_verifies_reproducibility():
     text = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
     assert "Verify reproducible build" in text
     assert "diff -u /tmp/first-build.sha256 dist/SHA256SUMS.txt" in text
+
+
+def test_gpt_builder_15_contracts_are_declared():
+    cfg = __import__("yaml").safe_load((ROOT / "gpt-project.yaml").read_text(encoding="utf-8"))
+    assert cfg["project"]["profile"] == "simple"
+    assert cfg["model_robustness"]["level"] == "lightweight"
+    assert cfg["model_robustness"]["instruction_adherence_evals"] is True
+    assert cfg["instructions"]["core_contract"]["max_required_file_hops"] <= 1
+    assert cfg["instructions"]["core_contract"]["knowledge_may_not_be_required_for_core_behavior"] is True
+    assert cfg["workspace_state"]["state"]["authority"] == "none"
+    assert cfg["tools"]["tools"] == []
+
+
+def test_peer_runtime_assessment_is_explicit():
+    cfg = __import__("yaml").safe_load((ROOT / "gpt-project.yaml").read_text(encoding="utf-8"))
+    candidates = {item["runtime_id"]: item for item in cfg["analysis"]["runtime"]["candidates"]}
+    assert set(candidates) == {
+        "chatgpt_chat",
+        "chatgpt_custom",
+        "claude_project",
+        "opencode",
+        "openai_plugin",
+    }
+    assert candidates["chatgpt_chat"]["suitability"] == "ready"
+    assert candidates["chatgpt_custom"]["suitability"] == "ready"
+    assert candidates["claude_project"]["suitability"] == "ready"
+    assert candidates["opencode"]["suitability"] == "reduced"
+    assert candidates["openai_plugin"]["suitability"] == "reduced"
+    assert cfg["runtime"]["claude"]["enabled"] is False
+
+
+def test_platform_neutral_contract_schemas_exist():
+    for rel in [
+        "schemas/capability-contract.schema.json",
+        "schemas/artifact-contract.schema.json",
+        "schemas/workspace-state-contract.schema.json",
+        "schemas/tool-contract.schema.json",
+        "schemas/eval-case.schema.json",
+        "schemas/test-manifest.schema.json",
+    ]:
+        assert (ROOT / rel).is_file(), rel
+
+
+def test_instruction_adherence_evals_are_registered():
+    yaml = __import__("yaml")
+    manifest = yaml.safe_load((ROOT / "tests/test-manifest.yaml").read_text(encoding="utf-8"))
+    suite = manifest["suites"]["instruction_adherence"]
+    assert suite["type"] == "behavioral"
+    assert suite["blocking"] is True
+    eval_dir = ROOT / suite["path"]
+    eval_files = sorted(eval_dir.glob("*.yaml"))
+    assert len(eval_files) >= 4
+    for path in eval_files:
+        case = yaml.safe_load(path.read_text(encoding="utf-8"))
+        assert case["criticality"] in {"critical", "important", "optional"}
+        assert case["input"]
+        assert case["expected"]["required"]
