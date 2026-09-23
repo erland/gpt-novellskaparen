@@ -27,7 +27,7 @@ jobs:
       - name: Test
         run: python -m pytest -q -p no:cacheprovider
       - name: Build distributions
-        run: python scripts/build_distributions.py --project-root . --version 0.0.0-ci --targets project,chat,custom-gpt
+        run: python scripts/build_distributions.py --project-root . --version 0.0.0-ci --targets project,chat,custom-gpt,claude
       - name: Validate distributions
         run: python scripts/validate_distributions.py --project-root .
       - name: Verify reproducible build
@@ -35,5 +35,5 @@ jobs:
         run: |
           set -euo pipefail
           cp dist/SHA256SUMS.txt /tmp/first-build.sha256
-          python scripts/build_distributions.py --project-root . --version 0.0.0-ci --targets project,chat,custom-gpt
+          python scripts/build_distributions.py --project-root . --version 0.0.0-ci --targets project,chat,custom-gpt,claude
           diff -u /tmp/first-build.sha256 dist/SHA256SUMS.txt
