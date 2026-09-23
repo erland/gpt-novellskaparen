@@ -7,8 +7,8 @@ plan:
   total_steps: 12
 progress:
   current_phase: migration
-  current_step: 9
-  last_completed_step: 8
+  current_step: 10
+  last_completed_step: 9
   completed_steps:
     - 1
     - 2
@@ -18,19 +18,20 @@ progress:
     - 6
     - 7
     - 8
+    - 9
   skipped_steps: []
   inserted_steps:
     - 9
     - 10
     - 11
 state:
-  overall: in_progress
+  overall: pass
   blocking_issues: []
   warnings: []
 next_step:
-  recommended: 9
-  title: GPT Byggaren 1.5-kontrakt och lightweight modellrobusthet
-  reason: Migreringen är påbörjad men steg 9 markeras inte klart förrän CI har verifierat kontrakt, tester och befintliga distributioner.
+  recommended: 10
+  title: Lägg till Claude Projects som peer-distribution
+  reason: Steg 9 är verifierat av CI; nästa migrationssteg är att bygga och validera Claude Projects från samma canonical kontrakt.
 resume:
   supported: true
   required_files:
@@ -39,4 +40,4 @@ resume:
     - docs/development-plan.md
     - STATUS.md
     - PROJECT.md
-  human_readable_status: Migrering till GPT Byggaren 1.5.0 pågår. Steg 9 väntar på CI-verifiering.
+  human_readable_status: Steg 9 klart och CI-verifierat. Fortsätt med steg 10.
