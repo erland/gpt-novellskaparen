@@ -442,6 +442,4 @@ GPT Byggaren ska då läsa faktisk projektstatus och utföra nästa lämpliga st
 
 ## Nästa steg enligt nuvarande status
 
-**Steg 12 – Sluttest, hygiene och release readiness.**
-
-När detta steg passerar samtliga kvalitetsgrindar övergår projektet till förvaltningsläge och PR:n är redo att mergeas.
+Samtliga steg 1–12 är genomförda och verifierade. Projektet är i förvaltningsläge efter migreringen till GPT Byggaren 1.5.0.
