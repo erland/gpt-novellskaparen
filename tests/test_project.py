@@ -318,3 +318,59 @@ def test_claude_build_and_validation_are_wired_into_ci():
     assert "def validate_claude(" in validate
     assert "Claude Project Instructions are not identical with canonical instruction" in validate
     assert "--targets project,chat,custom-gpt,claude" in ci
+
+
+def test_runtime_parity_model_covers_five_registered_runtimes():
+    yaml = __import__("yaml")
+    cfg = yaml.safe_load((ROOT / "gpt-project.yaml").read_text(encoding="utf-8"))
+    parity = yaml.safe_load((ROOT / "runtime-parity.yaml").read_text(encoding="utf-8"))
+    expected = {
+        "chatgpt_chat",
+        "chatgpt_custom",
+        "claude_project",
+        "opencode",
+        "openai_plugin",
+    }
+    assert set(cfg["runtime_parity"]["registered_runtimes"]) == expected
+    assert set(parity["registered_runtimes"]) == expected
+    assert set(cfg["runtime_parity"]["compared_categories"]) == {
+        "behavior", "capability", "artifact", "workspace_state", "tool"
+    }
+    assert parity["runtimes"]["chatgpt_chat"]["active"] is True
+    assert parity["runtimes"]["chatgpt_custom"]["active"] is True
+    assert parity["runtimes"]["claude_project"]["active"] is True
+    assert parity["runtimes"]["opencode"]["active"] is False
+    assert parity["runtimes"]["openai_plugin"]["active"] is False
+
+
+def test_active_distributions_embed_runtime_contracts():
+    build = (ROOT / "scripts/build_distributions.py").read_text(encoding="utf-8")
+    validate = (ROOT / "scripts/validate_distributions.py").read_text(encoding="utf-8")
+    for marker in [
+        'assistant / "runtime-contract.json"',
+        'builder / "runtime-contract.json"',
+        '"chatgpt_chat"',
+        '"chatgpt_custom"',
+        '"claude_project"',
+    ]:
+        assert marker in build
+    assert 'assistant" / "runtime-contract.json"' in validate
+    assert 'builder" / "runtime-contract.json"' in validate
+
+
+def test_ci_and_release_enforce_runtime_parity_and_readiness():
+    ci = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    release = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
+    for marker in [
+        "python scripts/validate_runtime_parity.py",
+        "python scripts/validate_release_readiness.py",
+    ]:
+        assert marker in ci
+        assert marker in release
+    assert "--targets project,chat,custom-gpt,claude" in release
+    assert "novellskaparen-claude-${VERSION}.zip" in release
+
+
+def test_runtime_parity_and_readiness_scripts_exist():
+    assert (ROOT / "scripts/validate_runtime_parity.py").is_file()
+    assert (ROOT / "scripts/validate_release_readiness.py").is_file()
