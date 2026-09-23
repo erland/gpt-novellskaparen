@@ -2,7 +2,7 @@
 
 ## Sammanfattning
 
-Steg 1–8 är genomförda. Migrering till **GPT Byggaren 1.5.0** pågår i steg 9.
+Steg 1–9 är genomförda. Migrering till **GPT Byggaren 1.5.0** fortsätter i steg 10.
 
 Novellskaparens canonical domänbeteende bevaras. Migreringen lägger först till plattformsneutrala kontrakt, explicit runtime-bedömning och `lightweight` modellrobusthet. Claude Projects, generaliserad runtime parity och uppdaterad releasekedja hanteras i efterföljande steg.
 
@@ -16,7 +16,7 @@ Novellskaparens canonical domänbeteende bevaras. Migreringen lägger först til
 - [x] Steg 6 – Hantera originalitet, inspirationsönskemål och kontinuitet
 - [x] Steg 7 – Skapa Chat ZIP och Custom GPT-distributioner
 - [x] Steg 8 – Lägg till CI och release-byggning
-- [ ] Steg 9 – GPT Byggaren 1.5-kontrakt och lightweight modellrobusthet
+- [x] Steg 9 – GPT Byggaren 1.5-kontrakt och lightweight modellrobusthet
 - [ ] Steg 10 – Lägg till Claude Projects som peer-distribution
 - [ ] Steg 11 – Generalisera runtime parity och releasekedjan
 - [ ] Steg 12 – Sluttest, hygiene och release readiness
@@ -39,10 +39,14 @@ Claude Projects är bedömd som `ready` men hålls avsiktligt avstängd tills st
 - Projekt-, Chat- och Custom GPT-ZIP får versionssatta filnamn.
 - GitHub Release-taggen styr releaseversionen.
 
+## Verifiering av steg 9
+
+CI passerade på migrationsbranchens head med lyckad lint, tester, distributionsbygge, distributionsvalidering och reproducerbarhetskontroll.
+
 ## Nästa rekommenderade steg
 
-Slutför **steg 9** genom att låta CI verifiera migreringsändringarna. Först när CI är grön markeras steg 9 som klart och nästa rekommenderade steg blir Claude Projects-distributionen.
+**Steg 10 – Lägg till Claude Projects som peer-distribution.**
 
 ## Blockerare
 
-Inga kända blockerare före CI-verifieringen.
+Inga kända blockerare.
