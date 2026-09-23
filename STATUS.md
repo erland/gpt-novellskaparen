@@ -2,9 +2,9 @@
 
 ## Sammanfattning
 
-Steg 1–8 är genomförda.
+Steg 1–8 är genomförda. Migrering till **GPT Byggaren 1.5.0** pågår i steg 9.
 
-Novellskaparen har canonical beteende, jämbördiga Chat ZIP- och Custom GPT-distributioner samt ett härdat CI- och releaseflöde. Byggen startar från rena genererade kataloger, använder versionssatta artefaktnamn och deterministiska ZIP-filer. GitHub Release-taggen är versionskälla vid release.
+Novellskaparens canonical domänbeteende bevaras. Migreringen lägger först till plattformsneutrala kontrakt, explicit runtime-bedömning och `lightweight` modellrobusthet. Claude Projects, generaliserad runtime parity och uppdaterad releasekedja hanteras i efterföljande steg.
 
 ## Genomförda steg
 
@@ -16,31 +16,33 @@ Novellskaparen har canonical beteende, jämbördiga Chat ZIP- och Custom GPT-dis
 - [x] Steg 6 – Hantera originalitet, inspirationsönskemål och kontinuitet
 - [x] Steg 7 – Skapa Chat ZIP och Custom GPT-distributioner
 - [x] Steg 8 – Lägg till CI och release-byggning
+- [ ] Steg 9 – GPT Byggaren 1.5-kontrakt och lightweight modellrobusthet
+- [ ] Steg 10 – Lägg till Claude Projects som peer-distribution
+- [ ] Steg 11 – Generalisera runtime parity och releasekedjan
+- [ ] Steg 12 – Sluttest, hygiene och release readiness
 
-## CI och release
+## GPT Byggaren 1.5-migrering
+
+Steg 9 omfattar:
+
+- explicit peer-bedömning av ChatGPT Chat, Custom GPT, Claude Projects, OpenCode och OpenAI Plugin,
+- capability-, artifact-, workspace/state- och tool-kontrakt,
+- `lightweight` modellrobusthetsprofil,
+- instruction-adherence-evals för minimal brief, uttryckliga begränsningar, revisionsscope och originalitet.
+
+Claude Projects är bedömd som `ready` men hålls avsiktligt avstängd tills steg 10 bygger och validerar distributionen. OpenCode och OpenAI Plugin är `reduced` och aktiveras inte som standard.
+
+## Befintlig CI och release
 
 - CI kör lint, tester, distribution build och distribution validation.
-- CI verifierar dessutom reproducerbarhet genom två identiska byggen och jämförelse av SHA-256-summor.
-- `build/` och `dist/` rensas inför varje build för att förhindra gamla artefakter.
+- CI verifierar reproducerbarhet genom två identiska byggen och jämförelse av SHA-256-summor.
 - Projekt-, Chat- och Custom GPT-ZIP får versionssatta filnamn.
-- GitHub Release-taggen (`vX.Y.Z` eller kompatibel prerelease) styr releaseversionen.
-- Release-workflow laddar upp endast de förväntade artefakterna och manifestfilerna.
-
-## Runtime-paritet
-
-- Canonical instruktion: identisk.
-- Conversation starters: samma innehåll.
-- Obligatorisk Knowledge: ingen.
-- Bildgenerering: rekommenderad kompletterande capability; tillgänglighet kan skilja mellan runtime-miljöer.
-- Webbsökning: inte en del av kärnflödet.
-- Filhantering: kompletterande och plattformsberoende.
+- GitHub Release-taggen styr releaseversionen.
 
 ## Nästa rekommenderade steg
 
-**Steg 9 – Sluttest, hygiene och release readiness.**
-
-Genomför full regressionskontroll, slutlig project hygiene, runtime-paritetsbedömning och verifiera att projektet är redo för första stabila release.
+Slutför **steg 9** genom att låta CI verifiera migreringsändringarna. Först när CI är grön markeras steg 9 som klart och nästa rekommenderade steg blir Claude Projects-distributionen.
 
 ## Blockerare
 
-Inga kända blockerare.
+Inga kända blockerare före CI-verifieringen.
