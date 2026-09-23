@@ -2,7 +2,7 @@
 
 ## Sammanfattning
 
-Steg 1–9 är genomförda. Migrering till **GPT Byggaren 1.5.0** fortsätter i steg 10.
+Steg 1–10 är genomförda. Migrering till **GPT Byggaren 1.5.0** fortsätter i steg 11.
 
 Novellskaparens canonical domänbeteende bevaras. Migreringen lägger först till plattformsneutrala kontrakt, explicit runtime-bedömning och `lightweight` modellrobusthet. Claude Projects, generaliserad runtime parity och uppdaterad releasekedja hanteras i efterföljande steg.
 
@@ -17,7 +17,7 @@ Novellskaparens canonical domänbeteende bevaras. Migreringen lägger först til
 - [x] Steg 7 – Skapa Chat ZIP och Custom GPT-distributioner
 - [x] Steg 8 – Lägg till CI och release-byggning
 - [x] Steg 9 – GPT Byggaren 1.5-kontrakt och lightweight modellrobusthet
-- [ ] Steg 10 – Lägg till Claude Projects som peer-distribution
+- [x] Steg 10 – Lägg till Claude Projects som peer-distribution
 - [ ] Steg 11 – Generalisera runtime parity och releasekedjan
 - [ ] Steg 12 – Sluttest, hygiene och release readiness
 
@@ -43,9 +43,13 @@ Claude Projects är bedömd som `ready` men hålls avsiktligt avstängd tills st
 
 CI passerade på migrationsbranchens head med lyckad lint, tester, distributionsbygge, distributionsvalidering och reproducerbarhetskontroll.
 
+## Verifiering av steg 10
+
+Claude Projects byggs nu deterministiskt från samma canonical instruktion som Chat och Custom GPT. CI verifierar identisk Project Instructions, runtime-kontrakt, giltig tom Knowledge-katalog när ingen Knowledge krävs samt reproducerbara artefakter.
+
 ## Nästa rekommenderade steg
 
-**Steg 10 – Lägg till Claude Projects som peer-distribution.**
+**Steg 11 – Generalisera runtime parity och releasekedjan.**
 
 ## Blockerare
 
