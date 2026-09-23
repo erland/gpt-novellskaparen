@@ -2,7 +2,7 @@
 
 ## Sammanfattning
 
-Steg 1–11 är genomförda. Migrering till **GPT Byggaren 1.5.0** återstår att slutverifiera i steg 12.
+Steg 1–12 är genomförda. Migreringen till **GPT Byggaren 1.5.0** är klar och projektet är i förvaltningsläge.
 
 Novellskaparens canonical domänbeteende bevaras. Migreringen lägger först till plattformsneutrala kontrakt, explicit runtime-bedömning och `lightweight` modellrobusthet. Claude Projects, generaliserad runtime parity och uppdaterad releasekedja hanteras i efterföljande steg.
 
@@ -19,7 +19,7 @@ Novellskaparens canonical domänbeteende bevaras. Migreringen lägger först til
 - [x] Steg 9 – GPT Byggaren 1.5-kontrakt och lightweight modellrobusthet
 - [x] Steg 10 – Lägg till Claude Projects som peer-distribution
 - [x] Steg 11 – Generalisera runtime parity och releasekedjan
-- [ ] Steg 12 – Sluttest, hygiene och release readiness
+- [x] Steg 12 – Sluttest, hygiene och release readiness
 
 ## GPT Byggaren 1.5-migrering
 
@@ -51,9 +51,13 @@ Claude Projects byggs nu deterministiskt från samma canonical instruktion som C
 
 CI passerade med generaliserad parity för fem registrerade runtimes, runtime-kontrakt i alla tre aktiva distributioner, release-readiness-gate, Claude som explicit releaseartefakt och reproducerbarhetskontroll.
 
+## Verifiering av steg 12
+
+Slutlig CI passerade lint, regressionstester, bygge av alla aktiva distributioner, distributionsvalidering, runtime parity, release readiness, project hygiene, workflow parity och reproducerbarhetskontroll. Dokumentationsdrift som upptäcktes i slutgranskningen är rättad och regressionstestad.
+
 ## Nästa rekommenderade steg
 
-**Steg 12 – Sluttest, hygiene och release readiness.**
+Projektet är i **förvaltningsläge**. PR:n kan mergeas.
 
 ## Blockerare
 
