@@ -28,21 +28,21 @@ progress:
     - 10
     - 11
 state:
-  overall: pass
+  overall: in_progress
   blocking_issues: []
   warnings: []
 validation:
   last_result: pass
-  details: Full regression, distributionsvalidering, runtime parity, release readiness, project hygiene, workflow parity och reproducerbarhetskontroll passerar.
+  details: GitHub Actions CI #130 passerade kanonisk lint, regressionstester, fem distributionsbyggen, distributionsvalidering och reproducerbarhetskontroll. Publicerad GitHub Release är inte verifierad.
 project_hygiene:
-  last_result: pass
+  last_result: pending
 release:
-  state: ready
-  note: GPT Byggaren 1.5.0-migreringen är verifierad och PR:n är redo att mergeas.
+  state: pending
+  note: Migration till 1.6.13 bygger fem distributioner; slutlig ZIP-hygien och release behöver verifieras.
 next_step:
-  recommended: null
-  title: Förvaltning
-  reason: Samtliga steg 1–12 är genomförda och verifierade.
+  recommended: verify_release
+  title: Slutverifiering 1.6.13
+  reason: Kontrollera nytt CI-resultat, projekt-ZIP utan temporär engine checkout och release-workflow.
 resume:
   supported: true
   required_files:
@@ -51,4 +51,4 @@ resume:
     - docs/development-plan.md
     - STATUS.md
     - PROJECT.md
-  human_readable_status: Migreringen till GPT Byggaren 1.5.0 är klar. Projektet är i förvaltningsläge.
+  human_readable_status: Pågående migrering till GPT Byggaren 1.6.13 på PR #3; ännu inte redo för merge.

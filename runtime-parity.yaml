@@ -2,7 +2,7 @@ schema_version: 1
 reference: canonical_contract
 registered_runtimes:
   - chatgpt_chat
-  - chatgpt_custom
+  - claude_skills
   - claude_project
   - opencode
   - openai_plugin
@@ -16,7 +16,7 @@ runtimes:
   chatgpt_chat:
     suitability: ready
     active: true
-  chatgpt_custom:
+  claude_skills:
     suitability: ready
     active: true
   claude_project:
@@ -24,11 +24,10 @@ runtimes:
     active: true
   opencode:
     suitability: reduced
-    active: false
+    active: true
   openai_plugin:
     suitability: reduced
-    active: false
+    active: true
 notes:
-  - Chat, Custom GPT och Claude Projects bär samma kritiska canonical beteende.
-  - OpenCode är inaktiv eftersom lokal workspace- och shell-exekvering inte behövs för kärnflödet.
-  - OpenAI Plugin är inaktiv eftersom pluginfunktioner inte behövs för kärnuppgiften.
+  - Alla fem formaten byggs; aktiv betyder byggmål, inte verifierad värdplattform.
+  - Plugin och OpenCode är valfria för kärnuppgiften men paketeras.

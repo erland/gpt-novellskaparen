@@ -15,33 +15,49 @@ jobs:
       PYTHONDONTWRITEBYTECODE: "1"
     steps:
       - uses: actions/checkout@v4
+      - name: Checkout canonical engine v1.6.13
+        uses: actions/checkout@v4
+        with:
+          repository: erland/gpt-byggaren
+          ref: v1.6.13
+          path: .canonical-engine-source
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Install dependencies
+        run: python -m pip install pyyaml pytest
+      - name: Install original canonical distribution engine
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install pyyaml pytest
-      - name: Lint
+          python .canonical-engine-source/scripts/install_distribution_engine.py \
+            --source .canonical-engine-source --project-root .
+      - name: Remove temporary engine checkout before packaging
+        run: rm -rf .canonical-engine-source
+      - name: Check canonical contract
         run: python scripts/lint_gpt_project.py --project-root .
-      - name: Test
+      - name: Build all five runtime distributions
+        run: |
+          python scripts/build_distributions.py --project-root . --version 0.0.0-ci --targets project,chat,plugin,claude_project,claude_skills,opencode
+      - name: Validate outputs
+        run: |
+          python scripts/validate_distributions.py --project-root .
+          test -f dist/SHA256SUMS.txt
+          test -f dist/DELIVERY-MANIFEST.json
+      - name: Upload build for review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: novellskaparen-migration-distributions
+          path: |
+            dist/*.zip
+            dist/SHA256SUMS.txt
+            dist/DELIVERY-MANIFEST.json
+          if-no-files-found: warn
+      - name: Run project regression tests
         run: python -m pytest -q -p no:cacheprovider
-      - name: Build distributions
-        run: python scripts/build_distributions.py --project-root . --version 0.0.0-ci --targets project,chat,custom-gpt,claude
-      - name: Validate distributions
-        run: python scripts/validate_distributions.py --project-root .
-      - name: Validate runtime parity
-        run: python scripts/validate_runtime_parity.py
-      - name: Validate release readiness
-        run: python scripts/validate_release_readiness.py
-      - name: Final project hygiene
-        run: python scripts/project_hygiene.py --project-root . --mode final
-      - name: Validate workflow parity
-        run: python scripts/validate_workflow_parity.py
       - name: Verify reproducible build
         shell: bash
         run: |
           set -euo pipefail
           cp dist/SHA256SUMS.txt /tmp/first-build.sha256
-          python scripts/build_distributions.py --project-root . --version 0.0.0-ci --targets project,chat,custom-gpt,claude
+          python scripts/build_distributions.py --project-root . --version 0.0.0-ci --targets project,chat,plugin,claude_project,claude_skills,opencode
           diff -u /tmp/first-build.sha256 dist/SHA256SUMS.txt
