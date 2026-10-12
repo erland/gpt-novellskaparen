@@ -33,9 +33,9 @@ state:
   warnings: []
 validation:
   last_result: pending
-  details: Full regression, distributionsvalidering, runtime parity, release readiness, project hygiene, workflow parity och reproducerbarhetskontroll passerar.
+  details: GitHub Actions CI #111 passerade kanonisk lint, regressionstester, fem distributionsbyggen, distributionsvalidering och reproducerbarhetskontroll. Publicerad GitHub Release är inte verifierad.
 project_hygiene:
-  last_result: pass
+  last_result: pending
 release:
   state: pending
   note: Migration till 1.6.13 bygger fem distributioner; slutlig ZIP-hygien och release behöver verifieras.
