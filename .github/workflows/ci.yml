@@ -15,11 +15,11 @@ jobs:
       PYTHONDONTWRITEBYTECODE: "1"
     steps:
       - uses: actions/checkout@v4
-      - name: Checkout canonical engine v1.6.16
+      - name: Checkout canonical engine v1.6.17
         uses: actions/checkout@v4
         with:
           repository: erland/gpt-byggaren
-          ref: v1.6.16
+          ref: v1.6.17
           path: .canonical-engine-source
       - uses: actions/setup-python@v5
         with:
