@@ -303,4 +303,5 @@ build_system:
     - build/**
     - dist/**
     - .git/**
+    - .canonical-engine-source/**
     - '**/__pycache__/**'
