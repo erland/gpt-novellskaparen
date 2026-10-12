@@ -2,7 +2,7 @@
 
 ## Migration till GPT Byggaren v1.6.15
 
-Migrationen genomförs i PR #3 (`migration/gpt-byggaren-1.6.13`). Projektets canonical instruktion har bevarats, medan projektmodellen och distributionsbyggningen anpassats till Chat, Plugin, Claude Projects, Claude Skills och OpenCode.
+Migrationen genomförs i PR #4 (`migration/gpt-byggaren-1.6.15`). Projektets canonical instruktion har bevarats, medan projektmodellen och distributionsbyggningen anpassats till Chat, Plugin, Claude Projects, Claude Skills och OpenCode.
 
 Originalmotor v1.6.15 installeras via GitHub Actions från en versionslåst källa. Byggkedjan har passerat kanonisk lint, projektets regressionstester, fem distributionsbyggen och reproducerbarhetskontroll. En tillfällig motor-checkout som tidigare hamnade i projekt-ZIP har avlägsnats och en senare CI-körning har passerat.
 
