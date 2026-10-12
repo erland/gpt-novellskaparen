@@ -49,3 +49,7 @@ Nästa konkreta steg är att bygga den fullständiga nya projektkonfigurationen,
 - Behållit `canonical/instructions.md`, tester, scenariomaterial och mallar; de är projektets egna resurser.
 - Behållit legacy-kompatibilitetsmetadata i `gpt-project.yaml` och `runtime-parity.yaml` tills ett separat kontraktstest visar att det kan tas bort utan dataförlust. Detta är metadata, inte aktiva distributionsmål.
 - GitHub CI #130 passerade efter skriptborttagning och dokumentationsuppdateringar. En publicerad release är fortfarande inte testad.
+
+## Slutlig legacy-bedömning
+
+Runtime-paritetsmodellen och runtime-kandidatlistan avser nu Chat, Plugin, Claude Projects, Claude Skills och OpenCode, och regressionskontrollerna har uppdaterats. Ett test med borttagen `runtime.custom_gpt` misslyckades redan vid originalmotorns installationssteg. Den inaktiva mappningen återställdes därför av kompatibilitetsskäl (`enabled: false`), utan att Custom GPT återaktiverades som byggmål. Senaste verifierade CI efter återställningen: #148, godkänd. Detta är ett dokumenterat kompatibilitetsberoende i originalmotorn och bör tas bort först vid en framtida motorversion som uttryckligen tillåter det.
