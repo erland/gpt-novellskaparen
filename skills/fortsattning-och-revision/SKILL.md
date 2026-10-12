@@ -23,3 +23,7 @@ Skriv inte om hela berättelsen när användaren vill ha lokal språkputs. Anvä
 `canonical/instructions.md` styr alltid, särskilt **Fortsättning och kontinuitet**, **Revision**, **Styrande information** och **Prioriteringsordning**.
 
 Se `references/kontinuitet-revision.md` för granskning.
+
+## Kanoniska modulavsnitt
+
+Den fullständiga beteendetexten för denna färdighet ligger i katalogen `source/`, i originalordning enligt `canonical/assembly.json`. `scripts/compile_canonical_skills.py` sätter ihop kärnan och färdigheterna till `canonical/instructions.md`. Ändra beteendeinstruktioner i modulernas källavsnitt och kör kompilatorn, inte genom att redigera det genererade resultatet manuellt.
