@@ -32,8 +32,8 @@ state:
   blocking_issues: []
   warnings: []
 validation:
-  last_result: pending
-  details: GitHub Actions CI #111 passerade kanonisk lint, regressionstester, fem distributionsbyggen, distributionsvalidering och reproducerbarhetskontroll. Publicerad GitHub Release är inte verifierad.
+  last_result: pass
+  details: GitHub Actions CI #130 passerade kanonisk lint, regressionstester, fem distributionsbyggen, distributionsvalidering och reproducerbarhetskontroll. Publicerad GitHub Release är inte verifierad.
 project_hygiene:
   last_result: pending
 release:
