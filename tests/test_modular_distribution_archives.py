@@ -1,10 +1,11 @@
 """Validate actual runtime ZIP behavior sources, not just YAML metadata."""
 from pathlib import Path
+import os
 import zipfile
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "0.0.0-ci"
+VERSION = os.environ.get("NOVELLSKAPAREN_BUILD_VERSION", "0.0.0-ci")
 
 
 def _member(z, suffix):
