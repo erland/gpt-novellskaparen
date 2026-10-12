@@ -1,68 +1,17 @@
 # Status – Novellskaparen
 
-## Sammanfattning
+## Migration till GPT Byggaren v1.6.13
 
-Steg 1–12 är genomförda. Migreringen till **GPT Byggaren 1.5.0** är klar och projektet är i förvaltningsläge.
+Migrationen genomförs i PR #3 (`migration/gpt-byggaren-1.6.13`). Projektets canonical instruktion har bevarats, medan projektmodellen och distributionsbyggningen anpassats till Chat, Plugin, Claude Projects, Claude Skills och OpenCode.
 
-Novellskaparens canonical domänbeteende bevaras. Migreringen lägger först till plattformsneutrala kontrakt, explicit runtime-bedömning och `lightweight` modellrobusthet. Claude Projects, generaliserad runtime parity och uppdaterad releasekedja hanteras i efterföljande steg.
+Originalmotor v1.6.13 installeras via GitHub Actions från en versionslåst källa. Byggkedjan har passerat kanonisk lint, projektets regressionstester, fem distributionsbyggen och reproducerbarhetskontroll. En tillfällig motor-checkout som tidigare hamnade i projekt-ZIP har avlägsnats och en senare CI-körning har passerat.
 
-## Genomförda steg
+## Kvarvarande kontroll
 
-- [x] Steg 1 – Initiera projektet och skapa canonical kärna
-- [x] Steg 2 – Förfina arbetsflödet för nya noveller
-- [x] Steg 3 – Förfina målgrupp, ton och innehållsnivå
-- [x] Steg 4 – Lägg till skrivpartnerlägen
-- [x] Steg 5 – Förbättra litterär kvalitet och revisionsbeteende
-- [x] Steg 6 – Hantera originalitet, inspirationsönskemål och kontinuitet
-- [x] Steg 7 – Skapa Chat ZIP och Custom GPT-distributioner
-- [x] Steg 8 – Lägg till CI och release-byggning
-- [x] Steg 9 – GPT Byggaren 1.5-kontrakt och lightweight modellrobusthet
-- [x] Steg 10 – Lägg till Claude Projects som peer-distribution
-- [x] Steg 11 – Generalisera runtime parity och releasekedjan
-- [x] Steg 12 – Sluttest, hygiene och release readiness
+- Säkerställ att slutlig CI passerar efter dokumentations- och städförändringar.
+- Första faktiska GitHub Release-publiceringen och hostspecifika runtimeprov är ännu inte verifierade.
+- Bedöm eventuella kvarvarande legacy-valideringsskript separat före borttagning.
 
-## GPT Byggaren 1.5-migrering
+## Beslut
 
-Steg 9 omfattar:
-
-- explicit peer-bedömning av ChatGPT Chat, Custom GPT, Claude Projects, OpenCode och OpenAI Plugin,
-- capability-, artifact-, workspace/state- och tool-kontrakt,
-- `lightweight` modellrobusthetsprofil,
-- instruction-adherence-evals för minimal brief, uttryckliga begränsningar, revisionsscope och originalitet.
-
-Chat, Custom GPT och Claude Projects är aktiva `ready` peer-runtimes. OpenCode och OpenAI Plugin är `reduced` och aktiveras inte som standard.
-
-## Befintlig CI och release
-
-- CI kör lint, tester, distribution build och distribution validation.
-- CI verifierar reproducerbarhet genom två identiska byggen och jämförelse av SHA-256-summor.
-- Projekt-, Chat-, Custom GPT- och Claude ZIP får versionssatta filnamn.
-- GitHub Release-taggen styr releaseversionen.
-
-## Verifiering av steg 9
-
-CI passerade på migrationsbranchens head med lyckad lint, tester, distributionsbygge, distributionsvalidering och reproducerbarhetskontroll.
-
-## Verifiering av steg 10
-
-Claude Projects byggs nu deterministiskt från samma canonical instruktion som Chat och Custom GPT. CI verifierar identisk Project Instructions, runtime-kontrakt, giltig tom Knowledge-katalog när ingen Knowledge krävs samt reproducerbara artefakter.
-
-## Verifiering av steg 11
-
-CI passerade med generaliserad parity för fem registrerade runtimes, runtime-kontrakt i alla tre aktiva distributioner, release-readiness-gate, Claude som explicit releaseartefakt och reproducerbarhetskontroll.
-
-## Verifiering av steg 12
-
-Slutlig CI passerade lint, regressionstester, bygge av alla aktiva distributioner, distributionsvalidering, runtime parity, release readiness, project hygiene, workflow parity och reproducerbarhetskontroll. Dokumentationsdrift som upptäcktes i slutgranskningen är rättad och regressionstestad.
-
-## Nästa rekommenderade steg
-
-Projektet är i **förvaltningsläge**. PR:n kan mergeas.
-
-## Blockerare
-
-Inga kända blockerare.
-
-## Pågående GPT Byggaren 1.6.13-migrering (PR #3)
-
-Texten ovan avser avslutad **1.5.0**-migration och innebär inte att den nya PR:n får mergas. CI #99 passerade motorinstallation, lint, fem distributionsbyggen, tester och reproducerbarhetskontroll. Manuell artefaktgranskning upptäckte att den temporära `.canonical-engine-source/.git` inkluderades i projekt-ZIP:en. Både CI- och release-workflow är nu ändrade så att checkout-katalogen tas bort **efter** motorinstallationen och **före** paketeringen. Slutverifiering av nästa CI-körning samt faktisk release-publicering återstår. **Merge/release är blockerad tills detta är verifierat.**
+Se `project-status.yaml` för maskinläsbar status. Canonical instruktion, scenarier och relevanta tester bevaras. Äldre v1.5.0-projektbeskrivningar har ersatts av denna aktuella status; migrationshistorik bevaras i `docs/migration-to-gpt-byggaren-1.6.13.md`.
