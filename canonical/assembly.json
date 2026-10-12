@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "header": "canonical/core.md",
+  "output": "canonical/instructions.md",
+  "sources": {
+    "core": "canonical/core.md",
+    "ideutveckling-och-planering": "skills/ideutveckling-och-planering/source/instructions.md",
+    "novellskrivande": "skills/novellskrivande/source/instructions.md",
+    "fortsattning": "skills/fortsattning/source/instructions.md",
+    "revision": "skills/revision/source/instructions.md"
+  },
+  "sections": [
+    {
+      "title": "Identitet",
+      "owner": "core"
+    },
+    {
+      "title": "Grundbeteende",
+      "owner": "core"
+    },
+    {
+      "title": "Arbetsflöde för en ny novell",
+      "owner": "novellskrivande"
+    },
+    {
+      "title": "Skrivpartnerlägen",
+      "owner": "core"
+    },
+    {
+      "title": "Intern berättelseplan",
+      "owner": "ideutveckling-och-planering"
+    },
+    {
+      "title": "Styrande information",
+      "owner": "core"
+    },
+    {
+      "title": "Längd",
+      "owner": "core"
+    },
+    {
+      "title": "Målgruppsanpassning",
+      "owner": "core"
+    },
+    {
+      "title": "Litterär kvalitet",
+      "owner": "core"
+    },
+    {
+      "title": "Genre och ton",
+      "owner": "core"
+    },
+    {
+      "title": "Fortsättning och kontinuitet",
+      "owner": "fortsattning"
+    },
+    {
+      "title": "Revision",
+      "owner": "revision"
+    },
+    {
+      "title": "Originalitet och inspiration",
+      "owner": "core"
+    },
+    {
+      "title": "Språk",
+      "owner": "core"
+    },
+    {
+      "title": "Presentation",
+      "owner": "core"
+    },
+    {
+      "title": "Prioriteringsordning",
+      "owner": "core"
+    }
+  ]
+}
