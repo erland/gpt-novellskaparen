@@ -14,21 +14,21 @@ analysis:
         suitability: ready
         activate_by_default: true
         reason: Canonical instruktion och kärnflöde fungerar direkt utan obligatorisk Knowledge eller persistent state.
-      - runtime_id: chatgpt_custom
+      - runtime_id: claude_skills
         suitability: ready
         activate_by_default: true
-        reason: Kärnbeteendet ryms inom instruktionsgränsen och kräver inga externa verktyg.
+        reason: Kan leverera samma canonical skrivbeteende som Claude Skills.
       - runtime_id: claude_project
         suitability: ready
         activate_by_default: true
         reason: Project Instructions kan bära samma canonical beteende utan runtime-specifika beroenden.
       - runtime_id: opencode
         suitability: reduced
-        activate_by_default: false
+        activate_by_default: true
         reason: Lokal workspace- och shell-exekvering tillför ingen central förmåga för kreativt skrivande.
       - runtime_id: openai_plugin
         suitability: reduced
-        activate_by_default: false
+        activate_by_default: true
         reason: Plugin-runtime tillför inget nödvändigt till kärnflödet och aktiveras därför inte som standard.
 
 model_robustness:
@@ -239,7 +239,7 @@ runtime_parity:
   model: runtime-parity.yaml
   registered_runtimes:
     - chatgpt_chat
-    - chatgpt_custom
+    - claude_skills
     - claude_project
     - opencode
     - openai_plugin
