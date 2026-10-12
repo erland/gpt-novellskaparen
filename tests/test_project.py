@@ -356,12 +356,10 @@ def test_final_hygiene_and_workflow_parity_are_enforced():
 def test_final_documentation_matches_active_runtime_model():
     project = (ROOT / "PROJECT.md").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    plan = (ROOT / "docs/development-plan.md").read_text(encoding="utf-8")
-    for marker in ["Chat ZIP", "Custom GPT", "Claude Projects"]:
-        assert marker in project
-        assert marker in readme
-    assert "OpenCode" in project
-    assert "OpenAI Plugin" in project
-    assert "de fyra versionssatta ZIP-filerna" in readme
-    assert "Steg 12 – Sluttest, hygiene och release readiness" in plan
-    assert "**Steg 9 – GPT Byggaren 1.5-kontrakt" not in plan.split("## Nästa steg enligt nuvarande status")[-1]
+    status = (ROOT / "STATUS.md").read_text(encoding="utf-8")
+    for text in (project, readme):
+        for marker in ("Chat", "Plugin", "Claude Projects", "Claude Skills", "OpenCode", "v1.6.13"):
+            assert marker in text
+        assert "Custom GPT och Claude Projects byggs som aktiva" not in text
+    assert "Migration till GPT Byggaren v1.6.13" in status
+    assert "Projektet är i **förvaltningsläge**. PR:n kan mergeas." not in status
