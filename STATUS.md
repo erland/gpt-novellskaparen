@@ -1,17 +1,25 @@
 # Status – Novellskaparen
 
-## Migration till GPT Byggaren v1.6.13
+## Migrering till GPT Byggaren v1.6.17
 
-Migrationen genomförs i PR #3 (`migration/gpt-byggaren-1.6.13`). Projektets canonical instruktion har bevarats, medan projektmodellen och distributionsbyggningen anpassats till Chat, Plugin, Claude Projects, Claude Skills och OpenCode.
+Ren migration från `main` i [PR #5](https://github.com/erland/gpt-novellskaparen/pull/5) på grenen `migration/gpt-byggaren-1.6.16-clean`. Äldre migrationsgrenar och PR #3 används inte som teknisk bas.
 
-Originalmotor v1.6.13 installeras via GitHub Actions från en versionslåst källa. Byggkedjan har passerat kanonisk lint, projektets regressionstester, fem distributionsbyggen och reproducerbarhetskontroll. En tillfällig motor-checkout som tidigare hamnade i projekt-ZIP har avlägsnats och en senare CI-körning har passerat.
+Fyra distinkta Skills har införts. Den kanoniska instruktionens 16 avsnitt har extraherats till gemensam kärna och Skill-källor utan textförlust. En deterministisk kompilator kontrollerar byte-exakt återställning. GitHub CI #38292749872 verifierade originalmotorn v1.6.17, exakt assembly, lint, regressionstester, sex ZIP-arkiv samt innehållskontroll av de fyra kanoniska Skill-beteendena i samtliga fem distributioner.
 
-## Kvarvarande kontroll
+## Kvarvarande gränser
 
-- Säkerställ att slutlig CI passerar efter dokumentations- och städförändringar.
-- Första faktiska GitHub Release-publiceringen och hostspecifika runtimeprov är ännu inte verifierade.
-- Bedöm eventuella kvarvarande legacy-valideringsskript separat före borttagning.
+- Hostspecifika funktionstester i ChatGPT Plugin, Claude och OpenCode är inte genomförda.
+- Faktisk publicerad GitHub Release är inte testad.
+- Arkivintegritet, checksummor och innehållskontroll passerar i CI. Verkligt värdbeteende återstår att prova.
 
 ## Beslut
 
-Se `project-status.yaml` för maskinläsbar status. Canonical instruktion, scenarier och relevanta tester bevaras. Äldre v1.5.0-projektbeskrivningar har ersatts av denna aktuella status; migrationshistorik bevaras i `docs/migration-to-gpt-byggaren-1.6.13.md`.
+PR #5 lämnas omergad för granskning. Historisk migrationsdokumentation för v1.6.13 bevaras som historik, inte som nuvarande status. Se `project-status.yaml`.
+
+## v1.6.17
+
+Aktiverat `instructions.mode: modular_skills` med nuvarande granskade källägarskap. GitHub Actions använder originalmotor v1.6.17. Hostspecifika tester och verklig release kvarstår.
+
+## Slutkorrigering av Skill-källor
+
+Alla fyra `skills.definitions[].source` pekar på egna `source/instructions.md` i stället för beskrivande `SKILL.md`. Testet `tests/test_modular_distribution_archives.py` öppnar de faktiska ZIP-arkiven och verifierar core + egen specialisering i Plugin/Claude Skills, utan annan Skills specialbeteende, samt sammansatt beteende i Chat, Claude Projects och OpenCode. PR #5 är fortfarande omergad.

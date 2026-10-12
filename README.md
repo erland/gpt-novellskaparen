@@ -1,31 +1,30 @@
 # Novellskaparen
 
-Novellskaparen är en svensk kreativ skrivassistent för noveller, idéutveckling, fortsatt skrivande och textrevision. `canonical/instructions.md` definierar samma centrala skrivbeteende i alla distributioner.
+Novellskaparen är en kreativ skrivassistent för svenska noveller, idéutveckling, fortsättning och revision.
 
-## Distributioner – GPT Byggaren v1.6.13
+## Kanonisk källa och fyra Skills
 
-| Paket | Syfte |
-| --- | --- |
-| Projekt-ZIP | Portabel källmodell och projektresurser |
-| Chat ZIP | Användning direkt i ChatGPT-konversation |
-| Plugin ZIP | ChatGPT-plugin utan krav på egna MCP-servrar |
-| Claude Projects ZIP | Claude Projects |
-| Claude Skills ZIP | Claude Skills |
-| OpenCode ZIP | OpenCode |
+Den kanoniska instruktionen i `canonical/instructions.md` genereras från `canonical/assembly.json`, `canonical/core.md` och de separata källorna under `skills/*/source/instructions.md`. De fyra Skill-filerna har tydliga aktiveringsregler och ansvarsområden:
 
-Custom GPT är inte längre ett aktivt distributionsmål. Äldre referenser till Custom GPT hör endast till migrationshistoriken.
+- `ideutveckling-och-planering`: premiss, synopsis, karaktärer och scenplan.
+- `novellskrivande`: nya noveller och scener.
+- `fortsattning`: vidareutveckling med berättelsekontinuitet.
+- `revision`: avgränsade och djupa omskrivningar av befintlig text.
 
-## Struktur
+Vid ändringar i beteendet redigeras de modulära källorna. Kontrollera med `python scripts/compile_canonical_skills.py --check`, eller återskapa instruktionen med `--write`. Den ursprungliga instruktionstexten på main behölls exakt vid den initiala uppdelningen.
 
-- `gpt-project.yaml` – kanonisk projektmodell och distributionskontrakt
-- `canonical/instructions.md` – skrivbeteende
-- `docs/skills/skill-decomposition.md` – projektspecifika färdigheter
-- `tests/` – regressionsfall och instruktionsevalueringar
-- `project-status.yaml`, `STATUS.md` – projektstatus
-- `docs/migration-to-gpt-byggaren-1.6.13.md` – migrationshistorik
+## Distributioner – GPT Byggaren v1.6.17
 
-## Byggning och release
+Byggsystemet producerar sex ZIP-arkiv: projektpaket, Chat ZIP, Plugin ZIP, Claude Project ZIP, Claude Skills ZIP och OpenCode ZIP. Custom GPT är inte aktivt distributionsmål.
 
-GitHub Actions hämtar **originalmotorn** från `erland/gpt-byggaren` tagg `v1.6.13` och installerar den innan lint, tester och byggning. Motorfilerna ska inte handmodifieras. CI bygger projektpaketet och fem distributioner, validerar dem och kontrollerar reproducerbara checksummor. Den temporära checkout-katalogen tas bort före paketeringen.
+## Byggning och verifiering
 
-` .github/workflows/ci.yml ` innehåller exakta byggkommandon. Vid publicering av en GitHub Release med tagg `vX.Y.Z` används `.github/workflows/release.yml` för att publicera sex ZIP-filer, `SHA256SUMS.txt` och `DELIVERY-MANIFEST.json`. Verifiera den första faktiska releasekörningen innan migrationen markeras som helt slutförd.
+GitHub Actions hämtar originalmotorn från `erland/gpt-byggaren` tagg `v1.6.17` och installerar den utan egen modifiering. CI utför assembly-kontroll, kanonisk lint, regressionstester, sex byggmål, distributionsvalidering, arkivintegritet, SHA256 och reproducerbarhetskontroll. Temporär engine-checkout avlägsnas före paketering.
+
+Se `.github/workflows/ci.yml` och `.github/workflows/release.yml`. Release-workflow aktiveras först när en GitHub Release publiceras; faktisk releasepublicering och hostspecifika runtimeprov behöver verifieras separat.
+
+Se `docs/skills/skill-decomposition-1.6.16.md`, `STATUS.md` och `project-status.yaml` för migrationsstatus.
+
+## Kanonisk Skills-aktivering
+
+`gpt-project.yaml` använder `instructions.mode: modular_skills` och `instructions.core: canonical/core.md`. Varje Skill har sin egen `source` under `skills/<id>/source/instructions.md`. `canonical/instructions.md` bevaras som byte-exakt kompatibilitetsreferens och kontrolleras av assembly-scriptet. Originalmotorn v1.6.17 bygger runtimeprojektioner från core och Skill-källorna, inte från Skill-sammanfattningarna.

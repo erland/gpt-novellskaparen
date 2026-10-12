@@ -40,7 +40,9 @@ model_robustness:
   instruction_adherence_evals: true
 
 instructions:
+  mode: modular_skills
   canonical: canonical/instructions.md
+  core: canonical/core.md
   core_contract:
     enabled: true
     required_markers:
@@ -256,16 +258,22 @@ skills:
   contract_version: 1
   mode: inferred
   definitions:
+    - id: ideutveckling-och-planering
+      name: ideutveckling-och-planering
+      description: Utveckla premisser, synopsis, scenplaner och karaktärer.
+      source: skills/ideutveckling-och-planering/source/instructions.md
     - id: novellskrivande
       name: novellskrivande
-      description: Skriv originella, målgruppsanpassade noveller direkt från en brief.
-      references:
-        - canonical/instructions.md
-    - id: fortsattning-och-revision
-      name: fortsattning-och-revision
-      description: Fortsätt och revidera berättelser med bibehållen kontinuitet.
-      references:
-        - canonical/instructions.md
+      description: Skriv nya originella och målgruppsanpassade noveller.
+      source: skills/novellskrivande/source/instructions.md
+    - id: fortsattning
+      name: fortsattning
+      description: Fortsätt etablerade berättelser med bibehållen kontinuitet.
+      source: skills/fortsattning/source/instructions.md
+    - id: revision
+      name: revision
+      description: Bearbeta befintliga texter proportionerligt.
+      source: skills/revision/source/instructions.md
 
 build_system:
   build_script: scripts/build_distributions.py
