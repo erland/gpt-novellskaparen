@@ -33,16 +33,16 @@ state:
   warnings: []
 validation:
   last_result: pass
-  details: GitHub Actions CI #130 passerade kanonisk lint, regressionstester, fem distributionsbyggen, distributionsvalidering och reproducerbarhetskontroll. Publicerad GitHub Release är inte verifierad.
+  details: GitHub Actions run 38288256868 passerade originalmotor 1.6.16, exakt canonical assembly, lint, regressionstester, sex byggmål, distributionsvalidering och reproducerbarhetskontroll; slutlig CI efter dokumentationsuppdateringar återstår.
 project_hygiene:
-  last_result: pending
+  last_result: reviewed
 release:
   state: pending
-  note: Migration till 1.6.13 bygger fem distributioner; slutlig ZIP-hygien och release behöver verifieras.
+  note: Migration till 1.6.16 bygger projekt-ZIP och fem distributioner; faktisk GitHub Release och hostspecifika runtimeprov återstår.
 next_step:
-  recommended: verify_release
-  title: Slutverifiering 1.6.13
-  reason: Kontrollera nytt CI-resultat, projekt-ZIP utan temporär engine checkout och release-workflow.
+  recommended: verify_final_ci
+  title: Slutverifiering 1.6.16
+  reason: Kontrollera CI efter dokumentationsändring och sex ZIP-filers struktur, checksummor samt hostspecifik runtime vid senare tillfälle.
 resume:
   supported: true
   required_files:
@@ -51,4 +51,4 @@ resume:
     - docs/development-plan.md
     - STATUS.md
     - PROJECT.md
-  human_readable_status: Pågående migrering till GPT Byggaren 1.6.13 på PR #3; ännu inte redo för merge.
+  human_readable_status: Pågående ren migrering från main till GPT Byggaren 1.6.16 på PR #5; ej mergad, release- och hosttester återstår.
