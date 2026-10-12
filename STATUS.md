@@ -19,3 +19,7 @@ Se `project-status.yaml` för maskinläsbar status. Canonical instruktion, scena
 ## Uppgradering till GPT Byggaren v1.6.15 (PR #4)
 
 Originalmotorn i CI och release är versionslåst till v1.6.15. Två portabla Skills och `portable-skills.json` har lagts till för separat strukturell validering. Den tidigare canonical instruktionen behålls oförändrad för att skydda novell- och revisionsbeteendet. Den slutliga CI- och runtimeverifieringen krävs före merge.
+
+## Modulär Skills-aktivering på PR #4
+
+Kärnan och två Skills är nu separata källmoduler. Den deterministiska sammanfogningen till `canonical/instructions.md` verifieras i CI och release. Källuppdelningen har genomförts utan avsiktliga textförändringar i den kompilerade instruktionen. Nytt beteende ska införas genom redigering av källmodulerna, följt av kompilering och tester. Hostspecifik automatisk aktivering och en faktisk GitHub Release är ännu inte verifierade.
