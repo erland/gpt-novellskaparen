@@ -259,13 +259,15 @@ skills:
     - id: novellskrivande
       name: novellskrivande
       description: Skriv originella, målgruppsanpassade noveller direkt från en brief.
+      source: skills/novellskrivande/SKILL.md
       references:
-        - canonical/instructions.md
+        - skills/novellskrivande/references/skrivflode.md
     - id: fortsattning-och-revision
       name: fortsattning-och-revision
       description: Fortsätt och revidera berättelser med bibehållen kontinuitet.
+      source: skills/fortsattning-och-revision/SKILL.md
       references:
-        - canonical/instructions.md
+        - skills/fortsattning-och-revision/references/kontinuitet-revision.md
 
 build_system:
   build_script: scripts/build_distributions.py
