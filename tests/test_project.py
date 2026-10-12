@@ -241,19 +241,11 @@ def test_gpt_builder_15_contracts_are_declared():
 def test_peer_runtime_assessment_is_explicit():
     cfg = __import__("yaml").safe_load((ROOT / "gpt-project.yaml").read_text(encoding="utf-8"))
     candidates = {item["runtime_id"]: item for item in cfg["analysis"]["runtime"]["candidates"]}
-    assert set(candidates) == {
-        "chatgpt_chat",
-        "chatgpt_custom",
-        "claude_project",
-        "opencode",
-        "openai_plugin",
-    }
-    assert candidates["chatgpt_chat"]["suitability"] == "ready"
-    assert candidates["chatgpt_custom"]["suitability"] == "ready"
-    assert candidates["claude_project"]["suitability"] == "ready"
-    assert candidates["opencode"]["suitability"] == "reduced"
-    assert candidates["openai_plugin"]["suitability"] == "reduced"
-    assert cfg["runtime"]["claude"]["enabled"] is True
+    expected = {"chatgpt_chat", "openai_plugin", "claude_project", "claude_skills", "opencode"}
+    assert set(candidates) == expected
+    assert all(item["activate_by_default"] is True for item in candidates.values())
+    assert cfg["runtime"]["custom_gpt"]["enabled"] is False
+
 
 
 def test_platform_neutral_contract_schemas_exist():
@@ -305,23 +297,12 @@ def test_runtime_parity_model_covers_five_registered_runtimes():
     yaml = __import__("yaml")
     cfg = yaml.safe_load((ROOT / "gpt-project.yaml").read_text(encoding="utf-8"))
     parity = yaml.safe_load((ROOT / "runtime-parity.yaml").read_text(encoding="utf-8"))
-    expected = {
-        "chatgpt_chat",
-        "chatgpt_custom",
-        "claude_project",
-        "opencode",
-        "openai_plugin",
-    }
+    expected = {"chatgpt_chat", "openai_plugin", "claude_project", "claude_skills", "opencode"}
     assert set(cfg["runtime_parity"]["registered_runtimes"]) == expected
     assert set(parity["registered_runtimes"]) == expected
-    assert set(cfg["runtime_parity"]["compared_categories"]) == {
-        "behavior", "capability", "artifact", "workspace_state", "tool"
-    }
-    assert parity["runtimes"]["chatgpt_chat"]["active"] is True
-    assert parity["runtimes"]["chatgpt_custom"]["active"] is True
-    assert parity["runtimes"]["claude_project"]["active"] is True
-    assert parity["runtimes"]["opencode"]["active"] is False
-    assert parity["runtimes"]["openai_plugin"]["active"] is False
+    assert set(cfg["runtime_parity"]["compared_categories"]) == {"behavior", "capability", "artifact", "workspace_state", "tool"}
+    assert all(parity["runtimes"][name]["active"] is True for name in expected)
+
 
 
 def test_active_distributions_embed_runtime_contracts():
