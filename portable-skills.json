@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "core": "canonical/instructions.md",
+  "modules": [
+    {
+      "id": "novellskrivande",
+      "skill": "skills/novellskrivande/SKILL.md",
+      "references": [
+        "skills/novellskrivande/references/skrivflode.md"
+      ],
+      "scripts": []
+    },
+    {
+      "id": "fortsattning-och-revision",
+      "skill": "skills/fortsattning-och-revision/SKILL.md",
+      "references": [
+        "skills/fortsattning-och-revision/references/kontinuitet-revision.md"
+      ],
+      "scripts": []
+    }
+  ],
+  "fallback": {
+    "chat_zip": "Använd canonical kärninstruktion och valbara läsbara referenser utan automatisk skillaktivering",
+    "plugin": "Använd canonical kärna och skilltexter; ingen extern skriptkörning eller MCP krävs",
+    "claude": "Installera portabla Skills där host stöder dem, annars följ den canonical kärninstruktionen",
+    "opencode": "Använd portabla Skills i stödd miljö; annars följ canonical instruktion utan skriptkörning"
+  }
+}
