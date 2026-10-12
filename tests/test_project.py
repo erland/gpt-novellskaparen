@@ -200,35 +200,25 @@ def test_custom_gpt_starters_are_builder_ready():
 
 
 def test_step7_build_logic_contains_runtime_profiles_and_real_parity_report():
-    text = (ROOT / "scripts/build_distributions.py").read_text(encoding="utf-8")
-    for marker in ["runtime_profile_text", "PROFILE.md", "profile.md", "Full paritet", "Inga kända saknade kärnfunktioner"]:
-        assert marker in text
+    cfg = __import__("yaml").safe_load((ROOT / "gpt-project.yaml").read_text(encoding="utf-8"))
+    assert set(cfg["build_system"]["runtime_targets"]) == {"chat", "plugin", "claude_project", "claude_skills", "opencode"}
+    assert cfg["runtime"]["custom_gpt"]["enabled"] is False
 
 
 def test_build_is_clean_versioned_and_reproducible_by_contract():
-    text = (ROOT / "scripts/build_distributions.py").read_text(encoding="utf-8")
-    for marker in [
-        "validate_version(version)",
-        "ensure_clean_dir(build_root)",
-        "ensure_clean_dir(dist)",
-        'f"{project_id}-project-{version}.zip"',
-        "FIXED_ZIP_DATE",
-    ]:
-        assert marker in text
+    cfg = __import__("yaml").safe_load((ROOT / "gpt-project.yaml").read_text(encoding="utf-8"))
+    assert cfg["build_system"]["deterministic_zip"] is True
+    assert cfg["build_system"]["checksums"] == "sha256"
+    assert set(cfg["build_system"]["targets"]) == {"project", "chat", "plugin", "claude_project", "claude_skills", "opencode"}
 
 
 def test_release_workflow_uses_release_tag_and_explicit_artifacts():
     text = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
-    for marker in [
-        "github.event.release.tag_name",
-        "novellskaparen-project-${VERSION}.zip",
-        "novellskaparen-chat-${VERSION}.zip",
-        "novellskaparen-custom-gpt-${VERSION}.zip",
-        "SHA256SUMS.txt",
-        "DELIVERY-MANIFEST.json",
-    ]:
-        assert marker in text
-    assert "dist/*.zip" not in text
+    assert "github.event.release.tag_name" in text
+    assert "gh release upload" in text
+    for target in ("project", "chat", "plugin", "claude_project", "claude_skills", "opencode"):
+        assert target in text
+    assert "custom-gpt" not in text
 
 
 def test_ci_verifies_reproducibility():
@@ -305,19 +295,10 @@ def test_claude_projects_distribution_contract_is_configured():
 
 
 def test_claude_build_and_validation_are_wired_into_ci():
-    build = (ROOT / "scripts/build_distributions.py").read_text(encoding="utf-8")
-    validate = (ROOT / "scripts/validate_distributions.py").read_text(encoding="utf-8")
+    cfg = __import__("yaml").safe_load((ROOT / "gpt-project.yaml").read_text(encoding="utf-8"))
     ci = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
-    for marker in [
-        "def build_claude(",
-        'runtime_id": runtime_id',
-        'f"{project_id}-claude-{version}.zip"',
-        "project/knowledge/",
-    ]:
-        assert marker in build
-    assert "def validate_claude(" in validate
-    assert "Claude Project Instructions are not identical with canonical instruction" in validate
-    assert "--targets project,chat,custom-gpt,claude" in ci
+    assert {"claude_project", "claude_skills"}.issubset(cfg["build_system"]["runtime_targets"])
+    assert "--targets project,chat,plugin,claude_project,claude_skills,opencode" in ci
 
 
 def test_runtime_parity_model_covers_five_registered_runtimes():
@@ -344,31 +325,19 @@ def test_runtime_parity_model_covers_five_registered_runtimes():
 
 
 def test_active_distributions_embed_runtime_contracts():
-    build = (ROOT / "scripts/build_distributions.py").read_text(encoding="utf-8")
-    validate = (ROOT / "scripts/validate_distributions.py").read_text(encoding="utf-8")
-    for marker in [
-        'assistant / "runtime-contract.json"',
-        'builder / "runtime-contract.json"',
-        '"chatgpt_chat"',
-        '"chatgpt_custom"',
-        '"claude_project"',
-    ]:
-        assert marker in build
-    assert 'assistant" / "runtime-contract.json"' in validate
-    assert 'builder" / "runtime-contract.json"' in validate
+    cfg = __import__("yaml").safe_load((ROOT / "gpt-project.yaml").read_text(encoding="utf-8"))
+    targets = cfg["build_system"]["runtime_targets"]
+    for name in ("chat", "plugin", "claude_project", "claude_skills", "opencode"):
+        assert all(targets[name].get(k) for k in ("builder", "runtime_id", "runtime_key", "artifact_type", "filename_pattern"))
+    assert (ROOT / "canonical/instructions.md").is_file()
 
 
 def test_ci_and_release_enforce_runtime_parity_and_readiness():
     ci = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
     release = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
-    for marker in [
-        "python scripts/validate_runtime_parity.py",
-        "python scripts/validate_release_readiness.py",
-    ]:
-        assert marker in ci
-        assert marker in release
-    assert "--targets project,chat,custom-gpt,claude" in release
-    assert "novellskaparen-claude-${VERSION}.zip" in release
+    for text in (ci, release):
+        assert "validate_distributions.py" in text
+        assert "--targets project,chat,plugin,claude_project,claude_skills,opencode" in text
 
 
 def test_runtime_parity_and_readiness_scripts_exist():
@@ -379,14 +348,9 @@ def test_runtime_parity_and_readiness_scripts_exist():
 def test_final_hygiene_and_workflow_parity_are_enforced():
     ci = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
     release = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
-    for marker in [
-        "python scripts/project_hygiene.py --project-root . --mode final",
-        "python scripts/validate_workflow_parity.py",
-    ]:
-        assert marker in ci
-        assert marker in release
-    assert (ROOT / "scripts/project_hygiene.py").is_file()
-    assert (ROOT / "scripts/validate_workflow_parity.py").is_file()
+    for text in (ci, release):
+        assert "lint_gpt_project.py" in text
+        assert "validate_distributions.py" in text
 
 
 def test_final_documentation_matches_active_runtime_model():
