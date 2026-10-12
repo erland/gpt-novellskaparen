@@ -256,16 +256,22 @@ skills:
   contract_version: 1
   mode: inferred
   definitions:
+    - id: ideutveckling-och-planering
+      name: ideutveckling-och-planering
+      description: Utveckla premisser, synopsis, scenplaner och karaktärer.
+      source: skills/ideutveckling-och-planering/SKILL.md
     - id: novellskrivande
       name: novellskrivande
-      description: Skriv originella, målgruppsanpassade noveller direkt från en brief.
-      references:
-        - canonical/instructions.md
-    - id: fortsattning-och-revision
-      name: fortsattning-och-revision
-      description: Fortsätt och revidera berättelser med bibehållen kontinuitet.
-      references:
-        - canonical/instructions.md
+      description: Skriv nya originella och målgruppsanpassade noveller.
+      source: skills/novellskrivande/SKILL.md
+    - id: fortsattning
+      name: fortsattning
+      description: Fortsätt etablerade berättelser med bibehållen kontinuitet.
+      source: skills/fortsattning/SKILL.md
+    - id: revision
+      name: revision
+      description: Bearbeta befintliga texter proportionerligt.
+      source: skills/revision/SKILL.md
 
 build_system:
   build_script: scripts/build_distributions.py
