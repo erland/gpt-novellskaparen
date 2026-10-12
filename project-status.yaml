@@ -33,15 +33,15 @@ state:
   warnings: []
 validation:
   last_result: pass
-  details: GitHub Actions run 38288256868 passerade originalmotor 1.6.16, exakt canonical assembly, lint, regressionstester, sex byggmål, distributionsvalidering och reproducerbarhetskontroll; slutlig CI efter dokumentationsuppdateringar återstår.
+  details: GitHub Actions run 38291643015 passerade originalmotor v1.6.17, modular_skills, exakt canonical assembly, lint, regressionstester, sex ZIP-artefakter med SHA-256 och ZIP-integritet samt reproducerbarhetskontroll.
 project_hygiene:
-  last_result: reviewed
+  last_result: pass
 release:
   state: pending
-  note: Migration till 1.6.16 bygger projekt-ZIP och fem distributioner; faktisk GitHub Release och hostspecifika runtimeprov återstår.
+  note: Migration till 1.6.17 bygger projekt-ZIP och fem distributioner; faktisk GitHub Release och hostspecifika runtimeprov återstår.
 next_step:
   recommended: verify_final_ci
-  title: Slutverifiering 1.6.16
+  title: Slutverifiering 1.6.17
   reason: Kontrollera CI efter dokumentationsändring och sex ZIP-filers struktur, checksummor samt hostspecifik runtime vid senare tillfälle.
 resume:
   supported: true
@@ -51,4 +51,4 @@ resume:
     - docs/development-plan.md
     - STATUS.md
     - PROJECT.md
-  human_readable_status: Pågående ren migrering från main till GPT Byggaren 1.6.16 på PR #5; ej mergad, release- och hosttester återstår.
+  human_readable_status: Pågående ren migrering från main till GPT Byggaren 1.6.17 på PR #5; ej mergad, release- och hosttester återstår.
