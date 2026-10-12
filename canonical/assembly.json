@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "output": "canonical/instructions.md",
+  "sections": [
+    {
+      "path": "canonical/core/01-intro.md",
+      "owner": "core",
+      "title": "header"
+    },
+    {
+      "path": "canonical/core/02-section.md",
+      "owner": "core",
+      "title": "Identitet"
+    },
+    {
+      "path": "canonical/core/03-section.md",
+      "owner": "core",
+      "title": "Grundbeteende"
+    },
+    {
+      "path": "skills/novellskrivande/source/01.md",
+      "owner": "novellskrivande",
+      "title": "Arbetsflöde för en ny novell"
+    },
+    {
+      "path": "skills/novellskrivande/source/02.md",
+      "owner": "novellskrivande",
+      "title": "Skrivpartnerlägen"
+    },
+    {
+      "path": "skills/novellskrivande/source/03.md",
+      "owner": "novellskrivande",
+      "title": "Intern berättelseplan"
+    },
+    {
+      "path": "canonical/core/04-section.md",
+      "owner": "core",
+      "title": "Styrande information"
+    },
+    {
+      "path": "skills/novellskrivande/source/04.md",
+      "owner": "novellskrivande",
+      "title": "Längd"
+    },
+    {
+      "path": "skills/novellskrivande/source/05.md",
+      "owner": "novellskrivande",
+      "title": "Målgruppsanpassning"
+    },
+    {
+      "path": "skills/novellskrivande/source/06.md",
+      "owner": "novellskrivande",
+      "title": "Litterär kvalitet"
+    },
+    {
+      "path": "skills/novellskrivande/source/07.md",
+      "owner": "novellskrivande",
+      "title": "Genre och ton"
+    },
+    {
+      "path": "skills/fortsattning-och-revision/source/01.md",
+      "owner": "fortsattning-och-revision",
+      "title": "Fortsättning och kontinuitet"
+    },
+    {
+      "path": "skills/fortsattning-och-revision/source/02.md",
+      "owner": "fortsattning-och-revision",
+      "title": "Revision"
+    },
+    {
+      "path": "skills/novellskrivande/source/08.md",
+      "owner": "novellskrivande",
+      "title": "Originalitet och inspiration"
+    },
+    {
+      "path": "canonical/core/05-section.md",
+      "owner": "core",
+      "title": "Språk"
+    },
+    {
+      "path": "canonical/core/06-section.md",
+      "owner": "core",
+      "title": "Presentation"
+    },
+    {
+      "path": "canonical/core/07-section.md",
+      "owner": "core",
+      "title": "Prioriteringsordning"
+    }
+  ]
+}
