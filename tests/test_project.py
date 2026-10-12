@@ -363,7 +363,7 @@ def test_portable_skill_contract_matches_novellskaparen_responsibilities():
         skill_path = ROOT / module["skill"]
         assert skill_path.is_file()
         text = skill_path.read_text(encoding="utf-8")
-        assert text.startswith("---\\n")
+        assert text.startswith("---\n")
         assert "canonical/instructions.md" in text
         for ref in module["references"]:
             assert (ROOT / ref).is_file()
