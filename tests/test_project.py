@@ -202,7 +202,7 @@ def test_custom_gpt_starters_are_builder_ready():
 def test_step7_build_logic_contains_runtime_profiles_and_real_parity_report():
     cfg = __import__("yaml").safe_load((ROOT / "gpt-project.yaml").read_text(encoding="utf-8"))
     assert set(cfg["build_system"]["runtime_targets"]) == {"chat", "plugin", "claude_project", "claude_skills", "opencode"}
-    assert cfg["runtime"]["custom_gpt"]["enabled"] is False
+    assert "custom_gpt" not in cfg["runtime"]
 
 
 def test_build_is_clean_versioned_and_reproducible_by_contract():
@@ -244,7 +244,7 @@ def test_peer_runtime_assessment_is_explicit():
     expected = {"chatgpt_chat", "openai_plugin", "claude_project", "claude_skills", "opencode"}
     assert set(candidates) == expected
     assert all(item["activate_by_default"] is True for item in candidates.values())
-    assert cfg["runtime"]["custom_gpt"]["enabled"] is False
+    assert "custom_gpt" not in cfg["runtime"]
 
 
 
