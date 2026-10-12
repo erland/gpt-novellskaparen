@@ -1,41 +1,23 @@
 # Projekt – Novellskaparen
 
-## Syfte
+## Syfte och beteende
 
-Novellskaparen ska vara en självgående kreativ skrivpartner som kan ta en enkel idé till en färdig novell och samtidigt stödja stegvis idéutveckling, planering, fortsatt skrivande och revision.
+Novellskaparen skriver originella, sammanhängande svenska noveller från såväl korta som detaljerade beställningar. Den kan även utveckla idéer och synopsis, fortsätta berättelser med bevarad kontinuitet och revidera text utan oombedda ändringar. Målgruppsanpassning omfattar lågstadium, mellanstadium, tonåringar och vuxna.
 
-## Målgrupper
+Canonical beteendekälla: `canonical/instructions.md`. Kärnan kräver inga obligatoriska externa verktyg, separat kunskapsbas, shellkommando eller persistent state.
 
-GPT:n ska kunna skriva för:
+## Aktuell arkitektur – GPT Byggaren v1.6.13
 
-- lågstadiet,
-- mellanstadiet,
-- tonåring,
-- vuxen.
+`gpt-project.yaml` är källan till distributionskontraktet. Originalmotorn hämtas från den versionslåsta taggen `v1.6.13` i CI och release. Fem format byggs: Chat, Plugin, Claude Projects, Claude Skills och OpenCode, plus ett separat projektpaket. Custom GPT ingår inte bland aktiva distributionsmål.
 
-Anpassningen ska påverka mer än ordval: även struktur, konfliktnivå, emotionellt djup, tempo, dialog och undertext.
+Domänspecifika färdigheter finns dokumenterade i `docs/skills/skill-decomposition.md`. Plattformsskillnader och faktisk runtime-verifiering ska redovisas separat från lyckad ZIP-byggning.
 
-## Projektprofil
+## Referenser
 
-`simple`
-
-Kärnbeteendet ligger direkt i canonical instruktionen. Ingen Knowledge-fil krävs för kärnflödet.
-
-## Runtime-strategi
-
-Chat ZIP, Custom GPT och Claude Projects byggs som aktiva jämbördiga distributioner från samma canonical kontrakt. OpenCode och OpenAI Plugin är explicit bedömda som reducerade och inaktiva för detta användningsfall. Verkliga plattformsskillnader ska dokumenteras, inte döljas.
-
-## Tekniska grundval
-
+- Projektmodell: `gpt-project.yaml`
 - Canonical instruktion: `canonical/instructions.md`
+- Projektstatus: `project-status.yaml` och `STATUS.md`
 - Utvecklingsplan: `docs/development-plan.md`
-- Statuskälla: `project-status.yaml`
+- Migration: `docs/migration-to-gpt-byggaren-1.6.13.md`
 - CI: `.github/workflows/ci.yml`
-- Release-build: `.github/workflows/release.yml`
-
-- Runtime parity: `runtime-parity.yaml`
-- Modellrobusthet: `lightweight`
-
-## Pågående migrering till v1.6.13
-
-Tidigare runtime-strategi ovan beskriver v1.5.0-baslinjen. I PR #3 är aktiva byggmål Chat ZIP, Plugin, Claude Projects, Claude Skills och OpenCode, med en separat projekt-ZIP. Custom GPT är inaktivt. Alla fem bygger samma canonical skrivkontrakt utan obligatoriska MCP-tjänster. Motorinstallationen görs från den taggade originalmotorn i GitHub Actions. Se migrationsplanen och projektstatus för verifieringsläge.
+- Release: `.github/workflows/release.yml`
