@@ -33,3 +33,7 @@ GitHub Actions hämtar **originalmotorn** från `erland/gpt-byggaren` tagg `v1.6
 ## Portabla färdigheter (v1.6.15)
 
 `portable-skills.json` deklarerar två projektspecifika Skills: `novellskrivande` och `fortsattning-och-revision`, med egna `SKILL.md` och referenser under `skills/`. CI och release verifierar deras struktur med originalmotorns `validate_portable_skills.py`. Canonical skrivinstruktionen i `canonical/instructions.md` förblir auktoritativ. Skills-kontraktets strukturella validering innebär inte att host-beteende har provats.
+
+## Modulär canonical Skills-modell
+
+Novellskaparen har nu tre auktoritativa källområden: `canonical/core/`, `skills/novellskrivande/source/` och `skills/fortsattning-och-revision/source/`. `canonical/assembly.json` definierar originalordningen för samtliga 17 avsnitt. Kör `python scripts/compile_canonical_skills.py --project-root .` för att generera `canonical/instructions.md` efter en källändring; CI och release kör motsvarande kommando med `--check` för att stoppa inkonsekventa leveranser. Den kompilerade instruktionen är fortsatt gemensam för alla distributioner, oberoende av om värdplattformen stöder automatisk Skill-aktivering.
