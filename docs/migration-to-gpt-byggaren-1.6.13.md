@@ -40,3 +40,12 @@ Kärnfunktionerna kräver inga obligatoriska externa verktyg, shellkommandon ell
 ## Fortsättningspunkt
 
 Nästa konkreta steg är att bygga den fullständiga nya projektkonfigurationen, installera motorn och köra migrations-/valideringsskripten. **Denna plan är ingen färdig migration.**
+
+## Städning efter migrering (2026-10-12)
+
+- Ersatt äldre huvuddokumentation i `README.md`, `PROJECT.md` och `STATUS.md` med aktuellt v1.6.13-innehåll.
+- Tagit bort `scripts/validate_workflow_parity.py`, `scripts/validate_release_readiness.py` och `scripts/validate_runtime_parity.py`. De kontrollerade gamla distributionsnamn och har ersatts av kanonisk lint och distributionsvalidering i den installerade motorn.
+- Behållit `scripts/project_hygiene.py` som projektspecifikt städverktyg, även om det inte är en CI-gate.
+- Behållit `canonical/instructions.md`, tester, scenariomaterial och mallar; de är projektets egna resurser.
+- Behållit legacy-kompatibilitetsmetadata i `gpt-project.yaml` och `runtime-parity.yaml` tills ett separat kontraktstest visar att det kan tas bort utan dataförlust. Detta är metadata, inte aktiva distributionsmål.
+- GitHub CI #130 passerade efter skriptborttagning och dokumentationsuppdateringar. En publicerad release är fortfarande inte testad.
