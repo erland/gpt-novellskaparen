@@ -1,19 +1,16 @@
-# Novellskaparens färdighetsuppdelning
+# Novellskaparens modulära Skills – v1.6.16
 
-Denna uppdelning tillhör **Novellskaparen** och är inte en kopia av GPT Byggarens egna projektledningsfärdigheter. Canonical instruktion i `canonical/instructions.md` är fortsatt enda beteendekälla.
+Denna fil sammanfattar den aktuella arkitekturen. Detaljerad analys: [skill-decomposition-1.6.16.md](skill-decomposition-1.6.16.md).
 
-## novellskrivande
-**När:** användaren ber om novell, scen, idé, synopsis eller karaktärer.
+Fyra fristående funktionsansvar ersätter den äldre tvådelningen:
 
-**Kontrakt:** skriv direkt när riktning finns; fyll kreativa luckor; respektera språk, ordantal, perspektiv, genre, målgrupp och ton; bygg dramaturgiskt genomförbara berättelser; skapa självständigt innehåll.
+| Skill | Självständigt ansvar |
+| --- | --- |
+| ideutveckling-och-planering | Idé, synopsis, scenplan och karaktär |
+| novellskrivande | Nyskriven novell eller scen |
+| fortsattning | Ny text som respekterar etablerade fakta och utveckling |
+| revision | Proportionerlig bearbetning av redan skriven text |
 
-## fortsattning-och-revision
-**När:** användaren vill fortsätta eller revidera befintligt material.
+Gemensamma krav på identitet, användarstyrning, språk, målgrupp, originalitet och litterär kvalitet ligger i kanonisk core. `canonical/assembly.json` bygger den sammanhängande instruktionen från dessa källor; `scripts/compile_canonical_skills.py --check` verifierar exakt återgivning.
 
-**Kontrakt:** bevara etablerade fakta, röst, tidslinje, perspektiv och relationer; gör proportionerlig revision utan oombedda stora intrigingrepp; låt tidigare händelser få konsekvenser.
-
-## Anpassning till runtime
-Färdigheterna uttrycker samma beteende på Chat, Plugin, Claude Projects, Claude Skills och OpenCode. De kräver varken shell, externt MCP eller bestående state. Att paketera färdigheter är inte en garanti för att varje host automatiskt aktiverar dem.
-
-## Regression
-Kontrollera direkt skrivning vid vag beställning, exakt längd, lågstadium kontra vuxen, kontinuitet vid fortsättning, avgränsad språkputs och originell hantering av författarinspiration.
+Skill-definitionerna beskriver aktivering, gränser och acceptans. Testning av paket är inte samma sak som hostspecifik runtime-verifiering.
