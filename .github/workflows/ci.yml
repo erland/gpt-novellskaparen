@@ -44,6 +44,26 @@ jobs:
           python scripts/validate_distributions.py --project-root .
           test -f dist/SHA256SUMS.txt
           test -f dist/DELIVERY-MANIFEST.json
+      - name: Verify all six archives and checksums
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd dist
+          for target in project chat plugin claude-project claude-skills opencode; do
+            test -f "novellskaparen-${target}-0.0.0-ci.zip"
+          done
+          sha256sum -c SHA256SUMS.txt
+          python - <<'PY'
+          from pathlib import Path
+          import zipfile
+          archives = sorted(Path(".").glob("*.zip"))
+          assert len(archives) == 6, f"Expected six ZIPs, found {len(archives)}"
+          for path in archives:
+              with zipfile.ZipFile(path) as z:
+                  assert z.testzip() is None, f"Corrupt ZIP: {path}"
+                  assert not any(p.startswith(".canonical-engine-source/") or p.startswith(".git/") for p in z.namelist()), path
+          print("PASS: 6 valid archives, no temporary engine checkout")
+          PY
       - name: Upload build for review
         if: always()
         uses: actions/upload-artifact@v4
