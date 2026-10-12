@@ -6,9 +6,9 @@ Novellskaparen skriver originella, sammanhängande svenska noveller från såvä
 
 Canonical beteendekälla: `canonical/instructions.md`. Kärnan kräver inga obligatoriska externa verktyg, separat kunskapsbas, shellkommando eller persistent state.
 
-## Aktuell arkitektur – GPT Byggaren v1.6.16
+## Aktuell arkitektur – GPT Byggaren v1.6.17
 
-`gpt-project.yaml` är källan till distributionskontraktet. Originalmotorn hämtas från den versionslåsta taggen `v1.6.16` i CI och release. Fem format byggs: Chat, Plugin, Claude Projects, Claude Skills och OpenCode, plus ett separat projektpaket. Custom GPT ingår inte bland aktiva distributionsmål.
+`gpt-project.yaml` är källan till distributionskontraktet. Originalmotorn hämtas från den versionslåsta taggen `v1.6.17` i CI och release. Fem format byggs: Chat, Plugin, Claude Projects, Claude Skills och OpenCode, plus ett separat projektpaket. Custom GPT ingår inte bland aktiva distributionsmål.
 
 Fyra separata modulära Skills har implementerats: idéutveckling/planering, novellskrivande, fortsättning och revision. Kanoniska källavsnitt finns i `canonical/core.md` respektive `skills/*/source/instructions.md`, och sammanfogas via `canonical/assembly.json`. Domänspecifika färdigheter finns dokumenterade i `docs/skills/skill-decomposition.md`. Plattformsskillnader och faktisk runtime-verifiering ska redovisas separat från lyckad ZIP-byggning.
 
