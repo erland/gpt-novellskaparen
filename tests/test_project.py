@@ -344,8 +344,8 @@ def test_final_documentation_matches_active_runtime_model():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     status = (ROOT / "STATUS.md").read_text(encoding="utf-8")
     for text in (project, readme):
-        for marker in ("Chat", "Plugin", "Claude Projects", "Claude Skills", "OpenCode", "v1.6.13"):
+        for marker in ("Chat", "Plugin", "Claude Project", "Claude Skills", "OpenCode", "v1.6.16"):
             assert marker in text
         assert "Custom GPT och Claude Projects byggs som aktiva" not in text
-    assert "Migration till GPT Byggaren v1.6.13" in status
+    assert "Migrering till GPT Byggaren v1.6.16" in status
     assert "Projektet är i **förvaltningsläge**. PR:n kan mergeas." not in status
