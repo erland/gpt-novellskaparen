@@ -65,3 +65,7 @@ Release-taggen är därmed versionskälla för releaseartefakterna.
 
 
 Claude Projects byggs och valideras tillsammans med Chat och Custom GPT. Runtime parity jämför fem registrerade runtimes över behavior, capability, artifact, workspace/state och tool. GitHub Release publicerar Project-, Chat-, Custom GPT- och Claude-ZIP samt checksummor och delivery manifest.
+
+## Migrering till GPT Byggaren v1.6.13 (PR #3)
+
+Den tidigare beskrivningen ovan gäller v1.5.0-baslinjen. Den nya CI-kedjan hämtar originalmotorn från `erland/gpt-byggaren` tagg `v1.6.13`, installerar den i byggmiljön och bygger projekt-ZIP samt **Chat, Plugin, Claude Projects, Claude Skills och OpenCode**. Custom GPT är inte längre ett aktivt byggmål. Projektets canonical instruktion och skrivbeteende bevaras. Se `docs/migration-to-gpt-byggaren-1.6.13.md` och `project-status.yaml` för aktuell status. Skapa ingen release innan slutvalideringen har passerat.
