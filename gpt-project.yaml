@@ -156,6 +156,8 @@ runtime:
       instructions: project/instructions.md
       knowledge: project/knowledge
       runtime_contract: project/runtime-contract.json
+    templates:
+      readme: templates/README.claude.md.tpl
     validation:
       require_instructions: true
       require_runtime_contract: true
@@ -169,6 +171,8 @@ runtime:
       references: references
       assets: assets
       scripts: scripts
+    templates:
+      readme: templates/README.plugin.md.tpl
     validation:
       require_manifest: true
       require_skill: true
@@ -184,6 +188,8 @@ runtime:
       runtime_scripts: scripts
       runtime_contract: .opencode/runtime-contract.json
       knowledge: knowledge
+    templates:
+      readme: templates/README.opencode.md.tpl
     skills:
       enabled: true
       directory: .opencode/skills
