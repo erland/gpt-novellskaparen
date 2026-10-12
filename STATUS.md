@@ -62,3 +62,7 @@ Projektet är i **förvaltningsläge**. PR:n kan mergeas.
 ## Blockerare
 
 Inga kända blockerare.
+
+## Pågående GPT Byggaren 1.6.13-migrering (PR #3)
+
+Texten ovan avser avslutad **1.5.0**-migration och innebär inte att den nya PR:n får mergas. CI #99 passerade motorinstallation, lint, fem distributionsbyggen, tester och reproducerbarhetskontroll. Manuell artefaktgranskning upptäckte att den temporära `.canonical-engine-source/.git` inkluderades i projekt-ZIP:en. Både CI- och release-workflow är nu ändrade så att checkout-katalogen tas bort **efter** motorinstallationen och **före** paketeringen. Slutverifiering av nästa CI-körning samt faktisk release-publicering återstår. **Merge/release är blockerad tills detta är verifierat.**
