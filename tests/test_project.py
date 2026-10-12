@@ -347,7 +347,7 @@ def test_final_documentation_matches_active_runtime_model():
         for marker in ("Chat", "Plugin", "Claude Projects", "Claude Skills", "OpenCode", "v1.6.15"):
             assert marker in text
         assert "Custom GPT och Claude Projects byggs som aktiva" not in text
-    assert "Migration till GPT Byggaren v1.6.13" in status
+    assert "Migration till GPT Byggaren v1.6.15" in status
     assert "Projektet är i **förvaltningsläge**. PR:n kan mergeas." not in status
 
 
