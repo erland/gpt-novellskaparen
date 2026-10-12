@@ -140,6 +140,38 @@ tools:
 
 knowledge_architecture:
   canonical_root: knowledge
+  plugin:
+    enabled: true
+    role: peer_distribution
+    mode: openai_plugin
+    layout:
+      manifest_file: plugin.json
+      skills: skills
+      references: references
+      assets: assets
+      scripts: scripts
+    validation:
+      require_manifest: true
+      require_skill: true
+      require_skill_frontmatter: true
+  opencode:
+    enabled: true
+    role: peer_distribution
+    mode: opencode_workspace
+    layout:
+      instructions: AGENTS.md
+      config: opencode.json
+      tools: .opencode/tools
+      runtime_scripts: scripts
+      runtime_contract: .opencode/runtime-contract.json
+      knowledge: knowledge
+    skills:
+      enabled: true
+      directory: .opencode/skills
+      definitions: []
+    validation:
+      require_agents_md: true
+      require_runtime_contract: true
   custom_gpt:
     priority: []
 
@@ -160,7 +192,7 @@ runtime:
       require_instructions: true
       require_runtime_contract: true
   custom_gpt:
-    enabled: true
+    enabled: false
     instruction:
       mode: identical
       max_characters: 8000
@@ -211,3 +243,64 @@ runtime_parity:
     - artifact
     - workspace_state
     - tool
+
+skills:
+  contract_version: 1
+  mode: inferred
+  definitions:
+    - id: novellskrivande
+      name: novellskrivande
+      description: Skriv originella, målgruppsanpassade noveller direkt från en brief.
+      references:
+        - canonical/instructions.md
+    - id: fortsattning-och-revision
+      name: fortsattning-och-revision
+      description: Fortsätt och revidera berättelser med bibehållen kontinuitet.
+      references:
+        - canonical/instructions.md
+
+build_system:
+  build_script: scripts/build_distributions.py
+  validation_script: scripts/validate_distributions.py
+  targets: [project, chat, plugin, claude_project, claude_skills, opencode]
+  runtime_targets:
+    chat:
+      runtime_id: chatgpt_chat
+      runtime_key: chat_zip
+      builder: chat
+      artifact_type: chat_zip
+      filename_pattern: <project-id>-chat-<version>.zip
+    plugin:
+      runtime_id: openai_plugin
+      runtime_key: plugin
+      builder: plugin
+      artifact_type: plugin_zip
+      filename_pattern: <project-id>-plugin-<version>.zip
+    claude_project:
+      runtime_id: claude_project
+      runtime_key: claude
+      builder: claude
+      artifact_type: claude_project_zip
+      filename_pattern: <project-id>-claude-project-<version>.zip
+    claude_skills:
+      runtime_id: claude_skills
+      runtime_key: claude
+      builder: claude_skills
+      artifact_type: claude_skills_zip
+      filename_pattern: <project-id>-claude-skills-<version>.zip
+    opencode:
+      runtime_id: opencode
+      runtime_key: opencode
+      builder: opencode
+      artifact_type: opencode_zip
+      filename_pattern: <project-id>-opencode-<version>.zip
+  output_root: dist
+  working_root: build
+  deterministic_zip: true
+  manifest: true
+  checksums: sha256
+  project_zip_excludes:
+    - build/**
+    - dist/**
+    - .git/**
+    - '**/__pycache__/**'
