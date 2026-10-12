@@ -261,19 +261,19 @@ skills:
     - id: ideutveckling-och-planering
       name: ideutveckling-och-planering
       description: Utveckla premisser, synopsis, scenplaner och karaktärer.
-      source: skills/ideutveckling-och-planering/SKILL.md
+      source: skills/ideutveckling-och-planering/source/instructions.md
     - id: novellskrivande
       name: novellskrivande
       description: Skriv nya originella och målgruppsanpassade noveller.
-      source: skills/novellskrivande/SKILL.md
+      source: skills/novellskrivande/source/instructions.md
     - id: fortsattning
       name: fortsattning
       description: Fortsätt etablerade berättelser med bibehållen kontinuitet.
-      source: skills/fortsattning/SKILL.md
+      source: skills/fortsattning/source/instructions.md
     - id: revision
       name: revision
       description: Bearbeta befintliga texter proportionerligt.
-      source: skills/revision/SKILL.md
+      source: skills/revision/source/instructions.md
 
 build_system:
   build_script: scripts/build_distributions.py
