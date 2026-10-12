@@ -140,6 +140,25 @@ tools:
 
 knowledge_architecture:
   canonical_root: knowledge
+  custom_gpt:
+    priority: []
+
+runtime:
+  primary: none
+  chat_zip:
+    enabled: true
+    start_here_template: tooling/templates/START-HERE.chat.md.tpl
+  claude:
+    enabled: true
+    role: peer_distribution
+    mode: claude_project
+    project:
+      instructions: project/instructions.md
+      knowledge: project/knowledge
+      runtime_contract: project/runtime-contract.json
+    validation:
+      require_instructions: true
+      require_runtime_contract: true
   plugin:
     enabled: true
     role: peer_distribution
@@ -171,25 +190,6 @@ knowledge_architecture:
       definitions: []
     validation:
       require_agents_md: true
-      require_runtime_contract: true
-  custom_gpt:
-    priority: []
-
-runtime:
-  primary: none
-  chat_zip:
-    enabled: true
-    start_here_template: tooling/templates/START-HERE.chat.md.tpl
-  claude:
-    enabled: true
-    role: peer_distribution
-    mode: claude_project
-    project:
-      instructions: project/instructions.md
-      knowledge: project/knowledge
-      runtime_contract: project/runtime-contract.json
-    validation:
-      require_instructions: true
       require_runtime_contract: true
   custom_gpt:
     enabled: false
