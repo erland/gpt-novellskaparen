@@ -340,9 +340,14 @@ def test_ci_and_release_enforce_runtime_parity_and_readiness():
         assert "--targets project,chat,plugin,claude_project,claude_skills,opencode" in text
 
 
-def test_runtime_parity_and_readiness_scripts_exist():
-    assert (ROOT / "scripts/validate_runtime_parity.py").is_file()
-    assert (ROOT / "scripts/validate_release_readiness.py").is_file()
+def test_legacy_validator_scripts_are_not_used():
+    ci = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+    release = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
+    for obsolete in ("validate_runtime_parity.py", "validate_release_readiness.py", "validate_workflow_parity.py"):
+        assert not (ROOT / "scripts" / obsolete).exists()
+        assert obsolete not in ci
+        assert obsolete not in release
+
 
 
 def test_final_hygiene_and_workflow_parity_are_enforced():
