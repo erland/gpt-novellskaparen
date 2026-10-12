@@ -35,3 +35,7 @@ Chat ZIP, Custom GPT och Claude Projects byggs som aktiva jämbördiga distribut
 
 - Runtime parity: `runtime-parity.yaml`
 - Modellrobusthet: `lightweight`
+
+## Pågående migrering till v1.6.13
+
+Tidigare runtime-strategi ovan beskriver v1.5.0-baslinjen. I PR #3 är aktiva byggmål Chat ZIP, Plugin, Claude Projects, Claude Skills och OpenCode, med en separat projekt-ZIP. Custom GPT är inaktivt. Alla fem bygger samma canonical skrivkontrakt utan obligatoriska MCP-tjänster. Motorinstallationen görs från den taggade originalmotorn i GitHub Actions. Se migrationsplanen och projektstatus för verifieringsläge.
