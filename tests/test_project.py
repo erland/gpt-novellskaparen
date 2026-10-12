@@ -349,3 +349,30 @@ def test_final_documentation_matches_active_runtime_model():
         assert "Custom GPT och Claude Projects byggs som aktiva" not in text
     assert "Migration till GPT Byggaren v1.6.13" in status
     assert "Projektet är i **förvaltningsläge**. PR:n kan mergeas." not in status
+
+
+def test_portable_skill_contract_matches_novellskaparen_responsibilities():
+    import json
+    cfg = __import__("yaml").safe_load((ROOT / "gpt-project.yaml").read_text(encoding="utf-8"))
+    contract = json.loads((ROOT / "portable-skills.json").read_text(encoding="utf-8"))
+    assert contract["core"] == cfg["instructions"]["canonical"]
+    assert {module["id"] for module in contract["modules"]} == {
+        "novellskrivande", "fortsattning-och-revision"
+    }
+    for module in contract["modules"]:
+        skill_path = ROOT / module["skill"]
+        assert skill_path.is_file()
+        text = skill_path.read_text(encoding="utf-8")
+        assert text.startswith("---\\n")
+        assert "canonical/instructions.md" in text
+        for ref in module["references"]:
+            assert (ROOT / ref).is_file()
+    assert set(contract["fallback"]) == {"chat_zip", "plugin", "claude", "opencode"}
+
+
+def test_ci_and_release_validate_portable_skills():
+    for path in (".github/workflows/ci.yml", ".github/workflows/release.yml"):
+        text = (ROOT / path).read_text(encoding="utf-8")
+        assert "validate_portable_skills.py" in text
+        assert "portable-skills.json" in text
+        assert "v1.6.15" in text
