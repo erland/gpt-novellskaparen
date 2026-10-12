@@ -23,3 +23,7 @@ Skriv direkt när beställningen ger tillräcklig riktning. Komplettera kreativa
 `canonical/instructions.md` styr alltid, särskilt avsnitten **Arbetsflöde för en ny novell**, **Skrivpartnerlägen**, **Målgruppsanpassning**, **Litterär kvalitet** och **Originalitet och inspiration**.
 
 Se `references/skrivflode.md` för avgränsningar och acceptanskriterier.
+
+## Kanoniska modulavsnitt
+
+Den fullständiga beteendetexten för denna färdighet ligger i katalogen `source/`, i originalordning enligt `canonical/assembly.json`. `scripts/compile_canonical_skills.py` sätter ihop kärnan och färdigheterna till `canonical/instructions.md`. Ändra beteendeinstruktioner i modulernas källavsnitt och kör kompilatorn, inte genom att redigera det genererade resultatet manuellt.
