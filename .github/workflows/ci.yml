@@ -15,11 +15,11 @@ jobs:
       PYTHONDONTWRITEBYTECODE: "1"
     steps:
       - uses: actions/checkout@v4
-      - name: Checkout canonical engine v1.6.13
+      - name: Checkout canonical engine v1.6.16
         uses: actions/checkout@v4
         with:
           repository: erland/gpt-byggaren
-          ref: v1.6.13
+          ref: v1.6.16
           path: .canonical-engine-source
       - uses: actions/setup-python@v5
         with:
@@ -32,6 +32,8 @@ jobs:
             --source .canonical-engine-source --project-root .
       - name: Remove temporary engine checkout before packaging
         run: rm -rf .canonical-engine-source
+      - name: Verify exact modular canonical assembly
+        run: python scripts/compile_canonical_skills.py --check
       - name: Check canonical contract
         run: python scripts/lint_gpt_project.py --project-root .
       - name: Build all five runtime distributions
