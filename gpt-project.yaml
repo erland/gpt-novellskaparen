@@ -40,7 +40,9 @@ model_robustness:
   instruction_adherence_evals: true
 
 instructions:
+  mode: modular_skills
   canonical: canonical/instructions.md
+  core: canonical/core.md
   core_contract:
     enabled: true
     required_markers:
