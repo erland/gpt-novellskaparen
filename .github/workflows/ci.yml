@@ -30,6 +30,8 @@ jobs:
         run: |
           python .canonical-engine-source/scripts/install_distribution_engine.py \
             --source .canonical-engine-source --project-root .
+      - name: Remove temporary engine checkout before packaging
+        run: rm -rf .canonical-engine-source
       - name: Check canonical contract
         run: python scripts/lint_gpt_project.py --project-root .
       - name: Build all five runtime distributions
