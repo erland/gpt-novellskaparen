@@ -52,3 +52,10 @@ jobs:
           if-no-files-found: warn
       - name: Run project regression tests
         run: python -m pytest -q -p no:cacheprovider
+      - name: Verify reproducible build
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp dist/SHA256SUMS.txt /tmp/first-build.sha256
+          python scripts/build_distributions.py --project-root . --version 0.0.0-ci --targets project,chat,plugin,claude_project,claude_skills,opencode
+          diff -u /tmp/first-build.sha256 dist/SHA256SUMS.txt
