@@ -2,7 +2,7 @@
 
 Novellskaparen är en svensk kreativ skrivassistent för noveller, idéutveckling, fortsatt skrivande och textrevision. `canonical/instructions.md` definierar samma centrala skrivbeteende i alla distributioner.
 
-## Distributioner – GPT Byggaren v1.6.13
+## Distributioner – GPT Byggaren v1.6.15
 
 | Paket | Syfte |
 | --- | --- |
@@ -26,6 +26,10 @@ Custom GPT är inte längre ett aktivt distributionsmål. Äldre referenser till
 
 ## Byggning och release
 
-GitHub Actions hämtar **originalmotorn** från `erland/gpt-byggaren` tagg `v1.6.13` och installerar den innan lint, tester och byggning. Motorfilerna ska inte handmodifieras. CI bygger projektpaketet och fem distributioner, validerar dem och kontrollerar reproducerbara checksummor. Den temporära checkout-katalogen tas bort före paketeringen.
+GitHub Actions hämtar **originalmotorn** från `erland/gpt-byggaren` tagg `v1.6.15` och installerar den innan lint, tester och byggning. Motorfilerna ska inte handmodifieras. CI bygger projektpaketet och fem distributioner, validerar dem och kontrollerar reproducerbara checksummor. Den temporära checkout-katalogen tas bort före paketeringen.
 
 ` .github/workflows/ci.yml ` innehåller exakta byggkommandon. Vid publicering av en GitHub Release med tagg `vX.Y.Z` används `.github/workflows/release.yml` för att publicera sex ZIP-filer, `SHA256SUMS.txt` och `DELIVERY-MANIFEST.json`. Verifiera den första faktiska releasekörningen innan migrationen markeras som helt slutförd.
+
+## Portabla färdigheter (v1.6.15)
+
+`portable-skills.json` deklarerar två projektspecifika Skills: `novellskrivande` och `fortsattning-och-revision`, med egna `SKILL.md` och referenser under `skills/`. CI och release verifierar deras struktur med originalmotorns `validate_portable_skills.py`. Canonical skrivinstruktionen i `canonical/instructions.md` förblir auktoritativ. Skills-kontraktets strukturella validering innebär inte att host-beteende har provats.
