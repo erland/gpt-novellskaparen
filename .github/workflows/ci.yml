@@ -34,6 +34,8 @@ jobs:
         run: rm -rf .canonical-engine-source
       - name: Check canonical contract
         run: python scripts/lint_gpt_project.py --project-root .
+      - name: Verify modular canonical compilation
+        run: python scripts/compile_canonical_skills.py --project-root . --check
       - name: Validate portable skill sources
         run: python scripts/validate_portable_skills.py --project-root . --contract portable-skills.json
       - name: Build all five runtime distributions
