@@ -33,12 +33,12 @@ state:
   warnings: []
 validation:
   last_result: pass
-  details: GitHub Actions CI #130 passerade kanonisk lint, regressionstester, fem distributionsbyggen, distributionsvalidering och reproducerbarhetskontroll. Publicerad GitHub Release är inte verifierad.
+  details: Migration till v1.6.15 på PR #4; originalmotorn, fem distributioner och portabla skills valideras i CI. Publicerad release och hostspecifika tester återstår.
 project_hygiene:
   last_result: pending
 release:
   state: pending
-  note: Migration till 1.6.13 bygger fem distributioner; slutlig ZIP-hygien och release behöver verifieras.
+  note: Migration till v1.6.15 pågår på PR #4; faktisk releasepublicering har inte verifierats.
 next_step:
   recommended: verify_release
   title: Slutverifiering 1.6.13
@@ -51,4 +51,4 @@ resume:
     - docs/development-plan.md
     - STATUS.md
     - PROJECT.md
-  human_readable_status: Pågående migrering till GPT Byggaren 1.6.13 på PR #3; ännu inte redo för merge.
+  human_readable_status: Migrering av Novellskaparen till GPT Byggaren v1.6.15 på PR #4; CI och release ska slutgranskas före merge.
