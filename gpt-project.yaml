@@ -199,6 +199,19 @@ runtime:
       require_runtime_contract: true
 
 
+  custom_gpt:
+    enabled: false
+    instruction:
+      mode: identical
+      max_characters: 8000
+    knowledge:
+      strategy: identical
+      max_files: 20
+    templates:
+      capabilities: tooling/templates/capabilities.md.tpl
+      readme: tooling/templates/README.custom-gpt.md.tpl
+      compatibility: tooling/templates/COMPATIBILITY.md.tpl
+
 testing:
   manifest: tests/test-manifest.yaml
   eval_case_schema: schemas/eval-case.schema.json
