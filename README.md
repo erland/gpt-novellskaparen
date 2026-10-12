@@ -1,71 +1,31 @@
 # Novellskaparen
 
-Novellskaparen är en kreativ skriv-GPT för att utveckla, skriva, fortsätta och revidera originella noveller anpassade efter målgrupp, genre, ton och längd.
+Novellskaparen är en svensk kreativ skrivassistent för noveller, idéutveckling, fortsatt skrivande och textrevision. `canonical/instructions.md` definierar samma centrala skrivbeteende i alla distributioner.
 
-## Distributioner
+## Distributioner – GPT Byggaren v1.6.13
 
-Projektet är utformat för tre aktiva jämbördiga runtime-distributioner från samma canonical kontrakt:
+| Paket | Syfte |
+| --- | --- |
+| Projekt-ZIP | Portabel källmodell och projektresurser |
+| Chat ZIP | Användning direkt i ChatGPT-konversation |
+| Plugin ZIP | ChatGPT-plugin utan krav på egna MCP-servrar |
+| Claude Projects ZIP | Claude Projects |
+| Claude Skills ZIP | Claude Skills |
+| OpenCode ZIP | OpenCode |
 
-- Chat ZIP
-- Custom GPT
-- Claude Projects
+Custom GPT är inte längre ett aktivt distributionsmål. Äldre referenser till Custom GPT hör endast till migrationshistoriken.
 
-Den canonical instruktionen finns i `canonical/instructions.md`.
+## Struktur
 
-## Projektstatus
+- `gpt-project.yaml` – kanonisk projektmodell och distributionskontrakt
+- `canonical/instructions.md` – skrivbeteende
+- `docs/skills/skill-decomposition.md` – projektspecifika färdigheter
+- `tests/` – regressionsfall och instruktionsevalueringar
+- `project-status.yaml`, `STATUS.md` – projektstatus
+- `docs/migration-to-gpt-byggaren-1.6.13.md` – migrationshistorik
 
-Se `STATUS.md` och `project-status.yaml`. Utvecklingsplanen finns i `docs/development-plan.md`.
+## Byggning och release
 
-## Lokal validering
+GitHub Actions hämtar **originalmotorn** från `erland/gpt-byggaren` tagg `v1.6.13` och installerar den innan lint, tester och byggning. Motorfilerna ska inte handmodifieras. CI bygger projektpaketet och fem distributioner, validerar dem och kontrollerar reproducerbara checksummor. Den temporära checkout-katalogen tas bort före paketeringen.
 
-Kräver Python 3.12+ med `pyyaml` och `pytest`.
-
-```bash
-python -m pip install pyyaml pytest
-python scripts/lint_gpt_project.py --project-root .
-python -m pytest -q -p no:cacheprovider
-python scripts/build_distributions.py --project-root . --version 0.8.0-dev --targets project,chat,custom-gpt,claude
-python scripts/validate_distributions.py --project-root .
-python scripts/validate_runtime_parity.py
-python scripts/validate_release_readiness.py
-python scripts/project_hygiene.py --project-root . --mode final
-python scripts/validate_workflow_parity.py
-```
-
-Varje byggning rensar `build/` och `dist/` först. ZIP-filer skapas deterministiskt med stabil filordning och fasta ZIP-tidsstämplar. `SHA256SUMS.txt` kan därför användas för att kontrollera att två byggen från samma källor och version är identiska.
-
-## Versionshantering
-
-Byggscriptet tar en SemVer-liknande version, exempelvis `0.8.0-dev`, `1.0.0` eller `1.0.0-rc.1`. Versionen används i runtime-filer, manifest och artefaktnamn:
-
-- `novellskaparen-project-<version>.zip`
-- `novellskaparen-chat-<version>.zip`
-- `novellskaparen-custom-gpt-<version>.zip`
-- `novellskaparen-claude-<version>.zip`
-
-## GitHub Actions
-
-### CI
-
-CI kör lint, tester, bygger Chat, Custom GPT, Claude Projects och projekt-ZIP:en, validerar distributionerna och bygger sedan en andra gång för att verifiera reproducerbara SHA-256-kontrollsummor.
-
-### Release
-
-När en GitHub Release publiceras ska taggen följa formen `v<version>`, exempelvis `v1.0.0` eller `v1.0.0-rc.1`. Workflowen:
-
-1. validerar taggen,
-2. härleder versionen genom att ta bort det inledande `v`,
-3. kör lint och tester,
-4. bygger rena distributioner,
-5. validerar dem,
-6. kontrollerar de förväntade filnamnen,
-7. laddar upp de fyra versionssatta ZIP-filerna (Project, Chat, Custom GPT och Claude) samt `SHA256SUMS.txt` och `DELIVERY-MANIFEST.json` till releasen.
-
-Release-taggen är därmed versionskälla för releaseartefakterna.
-
-
-Claude Projects byggs och valideras tillsammans med Chat och Custom GPT. Runtime parity jämför fem registrerade runtimes över behavior, capability, artifact, workspace/state och tool. GitHub Release publicerar Project-, Chat-, Custom GPT- och Claude-ZIP samt checksummor och delivery manifest.
-
-## Migrering till GPT Byggaren v1.6.13 (PR #3)
-
-Den tidigare beskrivningen ovan gäller v1.5.0-baslinjen. Den nya CI-kedjan hämtar originalmotorn från `erland/gpt-byggaren` tagg `v1.6.13`, installerar den i byggmiljön och bygger projekt-ZIP samt **Chat, Plugin, Claude Projects, Claude Skills och OpenCode**. Custom GPT är inte längre ett aktivt byggmål. Projektets canonical instruktion och skrivbeteende bevaras. Se `docs/migration-to-gpt-byggaren-1.6.13.md` och `project-status.yaml` för aktuell status. Skapa ingen release innan slutvalideringen har passerat.
+` .github/workflows/ci.yml ` innehåller exakta byggkommandon. Vid publicering av en GitHub Release med tagg `vX.Y.Z` används `.github/workflows/release.yml` för att publicera sex ZIP-filer, `SHA256SUMS.txt` och `DELIVERY-MANIFEST.json`. Verifiera den första faktiska releasekörningen innan migrationen markeras som helt slutförd.
